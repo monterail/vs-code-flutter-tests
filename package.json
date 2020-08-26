@@ -1,0 +1,133 @@
+{
+	"name": "better-tests",
+	"displayName": "Better Flutter Tests",
+	"description": "This Extension makes it much easier to create and maintain unit tests for flutter classes",
+	"version": "0.0.6",
+	"publisher": "andreasblech",
+	"engines": {
+		"vscode": "^1.47.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:dart",
+		"onCommand:better-tests.goToTestFile",
+		"onCommand:better-tests.goToSourceFile",
+		"onCommand:better-tests.executeTestsInTestFile"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "better-tests.goToTestFile",
+				"title": "Better Tests: Go to tests",
+				"icon": "./assets/swap.png"
+			},
+			{
+				"command": "better-tests.goToSourceFile",
+				"title": "Better Tests: Go to source file",
+				"icon": "./assets/swap.png"
+			},
+			{
+				"command": "better-tests.executeTestsInTestFile",
+				"title": "Better Tests: Run tests for file",
+				"icon": "./assets/run_tests.png"
+			}
+		],
+		"keybindings": [
+			{
+			  "command": "better-tests.goToTestFile",
+			  "key": "ctrl+T",
+			  "mac": "cmd+T",
+			  "when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/"
+			},
+			{
+			  "command": "better-tests.goToSourceFile",
+			  "key": "ctrl+T",
+			  "mac": "cmd+T",
+			  "when": "resourceLangId == dart && resourceFilename =~ /_test.dart/"
+			},
+			{
+				"command": "better-tests.executeTestsInTestFile",
+				"key": "ctrl+alt+T",
+				"mac": "cmd+alt+T",
+				"when": "resourceLangId == dart"
+			}
+		],
+		"menus": {
+			"touchBar": [
+				{
+					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
+                    "command": "better-tests.goToTestFile",
+                    "group": "nasc"
+                },
+				{
+					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
+                    "command": "better-tests.goToSourceFile",
+                    "group": "nasc"
+                },
+				{
+					"when": "resourceLangId == dart",
+					"command": "better-tests.executeTestsInTestFile",
+					"group": "nasc"
+				}
+			],
+			"explorer/context": [
+			  {
+				"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
+				"command": "better-tests.goToTestFile",
+				"group": "1_modification"
+			  },
+			  {
+				"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
+				"command": "better-tests.goToSourceFile",
+				"group": "1_modification"
+			  },
+			  {
+				"when": "resourceLangId == dart",
+				"command": "better-tests.executeTestsInTestFile",
+				"group": "1_modification"
+			  }
+			],
+			"editor/context": [
+				{
+					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
+					"command": "better-tests.goToTestFile",
+					"group": "1_modification"
+				},
+				{
+					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
+					"command": "better-tests.goToSourceFile",
+					"group": "1_modification"
+				},
+				{
+					"when": "resourceLangId == dart",
+					"command": "better-tests.executeTestsInTestFile",
+					"group": "1_modification"
+				}
+			]
+		  }
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.47.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"eslint": "^6.8.0",
+		"@typescript-eslint/parser": "^2.30.0",
+		"@typescript-eslint/eslint-plugin": "^2.30.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.2",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0"
+	}
+}

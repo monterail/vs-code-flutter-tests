@@ -83,10 +83,7 @@ function extractPublicClassNames(originalFilePath: string): string[] {
 
 function getTestFileContent(className: string): string {
 	return `import 'package:test/test.dart'; 
-// Path to package ergänzen
-	
-//Execute with context menü "Run tests in file"
-	
+		
 void main() {
 	group(
 		'${className}', 

@@ -1,0 +1,13 @@
+{
+    "ftest": {
+        "prefix": "ftest",
+        "body": [
+            "test(",
+            "'$1',",
+            "() async {",
+            "},",
+            ");"
+        ],
+        "description": "Default dart unit test stub"
+    }
+}

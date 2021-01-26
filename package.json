@@ -2,7 +2,7 @@
 	"name": "better-tests",
 	"displayName": "Better Flutter Tests",
 	"description": "This Extension makes it much easier to create and maintain unit tests for flutter projects.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"publisher": "andreasblech",
 	"engines": {
 		"vscode": "^1.52.0"
@@ -17,7 +17,7 @@
 		"tdd",
 		"test driven development",
 		"unit tests"
-	], 
+	],
 	"activationEvents": [
 		"onLanguage:dart",
 		"onCommand:better-tests.goToTestFile",
@@ -49,16 +49,16 @@
 		],
 		"keybindings": [
 			{
-			  "command": "better-tests.goToTestFile",
-			  "key": "ctrl+T",
-			  "mac": "cmd+T",
-			  "when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/"
+				"command": "better-tests.goToTestFile",
+				"key": "ctrl+T",
+				"mac": "cmd+T",
+				"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/"
 			},
 			{
-			  "command": "better-tests.goToSourceFile",
-			  "key": "ctrl+T",
-			  "mac": "cmd+T",
-			  "when": "resourceLangId == dart && resourceFilename =~ /_test.dart/"
+				"command": "better-tests.goToSourceFile",
+				"key": "ctrl+T",
+				"mac": "cmd+T",
+				"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/"
 			},
 			{
 				"command": "better-tests.executeTestsInTestFile",
@@ -71,14 +71,14 @@
 			"touchBar": [
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
-                    "command": "better-tests.goToTestFile",
-                    "group": "nasc"
-                },
+					"command": "better-tests.goToTestFile",
+					"group": "nasc"
+				},
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
-                    "command": "better-tests.goToSourceFile",
-                    "group": "nasc"
-                },
+					"command": "better-tests.goToSourceFile",
+					"group": "nasc"
+				},
 				{
 					"when": "resourceLangId == dart",
 					"command": "better-tests.executeTestsInTestFile",
@@ -86,21 +86,21 @@
 				}
 			],
 			"explorer/context": [
-			  {
-				"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
-				"command": "better-tests.goToTestFile",
-				"group": "1_modification"
-			  },
-			  {
-				"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
-				"command": "better-tests.goToSourceFile",
-				"group": "1_modification"
-			  },
-			  {
-				"when": "resourceLangId == dart",
-				"command": "better-tests.executeTestsInTestFile",
-				"group": "1_modification"
-			  }
+				{
+					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
+					"command": "better-tests.goToTestFile",
+					"group": "1_modification"
+				},
+				{
+					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
+					"command": "better-tests.goToSourceFile",
+					"group": "1_modification"
+				},
+				{
+					"when": "resourceLangId == dart",
+					"command": "better-tests.executeTestsInTestFile",
+					"group": "1_modification"
+				}
 			],
 			"editor/context": [
 				{
@@ -119,7 +119,7 @@
 					"group": "1_modification"
 				}
 			]
-		  }
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

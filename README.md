@@ -1,3 +1,2 @@
 # better-tests README
 
-**Enjoy!**

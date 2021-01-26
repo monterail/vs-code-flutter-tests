@@ -10,11 +10,16 @@ Boost your TDD-Workflow by:
 * Using snippets to avoid writing boilderplate code
 
 ## Snippets
-|Snippet Prefix|Description|
-|`ftest`|Creates `test('<test-name>', () {<test-code>})`|
+
+| Snippet Prefix | Description                                     |
+| -------------- | ----------------------------------------------- |
+| `ftest`        | Creates `test('<test-name>', () {<test-code>})` |
+
+
 
 <!-- 
 It provides the following features:
+
 - ✅ Command for generating a proper `xyz_test.dart` file for an existing `xyz.dart` file 
     - ✅ same location inside of /test as in /lib
     - ✅ includes default boilerplate testing code

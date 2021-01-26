@@ -18,6 +18,7 @@
 		"test driven development",
 		"unit tests"
 	],
+	"icon": "assets/logo.png",
 	"activationEvents": [
 		"onLanguage:dart",
 		"onCommand:better-tests.goToTestFile",

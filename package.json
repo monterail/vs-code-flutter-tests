@@ -2,7 +2,7 @@
 	"name": "better-tests",
 	"displayName": "Better Flutter Tests",
 	"description": "This Extension makes it much easier to create and maintain unit tests for flutter projects.",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"publisher": "andreasblech",
 	"engines": {
 		"vscode": "^1.52.0"
@@ -31,11 +31,14 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"snippets": [{
-			"language": "dart",
-			"path": "snippets/snippets.json"
-		}],
-		"commands": [{
+		"snippets": [
+			{
+				"language": "dart",
+				"path": "snippets/snippets.json"
+			}
+		],
+		"commands": [
+			{
 				"command": "better-tests.goToTestFile",
 				"title": "Better Tests: Go to tests",
 				"icon": "./assets/swap.png"
@@ -55,7 +58,8 @@
 				"title": "TEST: Add Console Log"
 			}
 		],
-		"keybindings": [{
+		"keybindings": [
+			{
 				"command": "better-tests.goToTestFile",
 				"key": "ctrl+T",
 				"mac": "cmd+T",
@@ -75,7 +79,8 @@
 			}
 		],
 		"menus": {
-			"touchBar": [{
+			"touchBar": [
+				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
 					"command": "better-tests.goToTestFile",
 					"group": "nasc"
@@ -91,7 +96,8 @@
 					"group": "nasc"
 				}
 			],
-			"explorer/context": [{
+			"explorer/context": [
+				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
 					"command": "better-tests.goToTestFile",
 					"group": "1_modification"
@@ -107,7 +113,8 @@
 					"group": "1_modification"
 				}
 			],
-			"editor/context": [{
+			"editor/context": [
+				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
 					"command": "better-tests.goToTestFile",
 					"group": "1_modification"

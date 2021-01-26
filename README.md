@@ -5,8 +5,13 @@ accelerating your coding/testing workflow 🚀
 
 Boost your TDD-Workflow by:
 * Creating a proper `xyz_test.dart` file with boilderplate code for an existing `xyz.dart` file with one click!
-* Switch between `xyz.dart` file and the associated `xyz_test.dart` file instantly 
+* Switching between `xyz.dart` file and the associated `xyz_test.dart` file instantly 
 * Dramatically faster test execution  -> Run only the unit tests that affect the file you're currently working on.
+* Using snippets to avoid writing boilderplate code
+
+## Snippets
+|Snippet Prefix|Description|
+|`ftest`|Creates `test('<test-name>', () {<test-code>})`|
 
 <!-- 
 It provides the following features:

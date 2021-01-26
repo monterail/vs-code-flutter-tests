@@ -1,7 +1,8 @@
 # README
 
-This Extension helps you to improve the quality of your code by
-accelerating your coding/testing workflow 🚀
+**This Extension helps you to improve the quality of your code by
+accelerating your coding/testing workflow 🚀**
+
 
 Boost your TDD-Workflow by:
 * Creating a proper `xyz_test.dart` file with boilderplate code for an existing `xyz.dart` file with one click!

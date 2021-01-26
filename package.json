@@ -8,7 +8,8 @@
 		"vscode": "^1.52.0"
 	},
 	"categories": [
-		"Programming Languages"
+		"Programming Languages",
+		"Snippets"
 	],
 	"keywords": [
 		"flutter",

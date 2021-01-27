@@ -10,5 +10,17 @@
             ");"
         ],
         "description": "Default dart unit test stub"
+    },
+    "fgroup": {
+        "prefix": "fgroup",
+        "body": [
+            "group(",
+            "\t'$1',",
+            "\t() {",
+            "\t\t$2",
+            "\t},",
+            ");"
+        ],
+        "description": "Default dart test group stub"
     }
 }

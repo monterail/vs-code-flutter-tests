@@ -1,6 +1,6 @@
 # README
 
-**This Extension helps you to improve the quality of your code by
+**Improve the quality of your code by
 accelerating your coding/testing workflow 🚀**
 
 
@@ -12,9 +12,10 @@ Boost your TDD-Workflow by:
 
 ## Snippets
 
-| Snippet Prefix | Description                                     |
-| -------------- | ----------------------------------------------- |
-| `ftest`        | Creates `test('<test-name>', () {<test-code>})` |
+| Snippet Prefix | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| `ftest`        | Creates `test('<test-name>', () {<test-code>})`        |
+| `fgroup`       | Creates `group('<group-name>', () {<multiple-tests>})` |
 
 ## Commands
 

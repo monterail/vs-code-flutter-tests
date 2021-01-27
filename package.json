@@ -17,7 +17,9 @@
 		"dart",
 		"tdd",
 		"test driven development",
-		"unit tests"
+		"unit tests",
+		"test",
+		"testing"
 	],
 	"galleryBanner": {
 		"color": "#FFFFFF"

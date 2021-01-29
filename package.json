@@ -2,7 +2,7 @@
 	"name": "better-tests",
 	"displayName": "Better Flutter Tests",
 	"description": "This Extension makes it much easier to create and maintain unit tests for flutter projects.",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"publisher": "andreasblech",
 	"engines": {
 		"vscode": "^1.52.0"

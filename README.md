@@ -34,17 +34,3 @@ Boost your TDD-Workflow by:
 | -------------- | ------------------------------------------------------ |
 | `ftest`        | Creates `test('<test-name>', () {<test-code>})`        |
 | `fgroup`       | Creates `group('<group-name>', () {<multiple-tests>})` |
-
-
-<!-- 
-It provides the following features:
-
-- ✅ Command for generating a proper `xyz_test.dart` file for an existing `xyz.dart` file 
-    - ✅ same location inside of /test as in /lib
-    - ✅ includes default boilerplate testing code
-
-- ✅  Command for switching between `xyz.dart` file and the associated `xyz_test.dart` file instantly
-
-- ✅ Command for executing only the unit tests inside of one test file, instead of all unit tests
-    * Same as executing `$> flutter test <path-to-testfile>` in the terminal
-    * Makes it much faster to check, if all unit tests inside of  -->

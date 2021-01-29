@@ -11,6 +11,10 @@
 		"Programming Languages",
 		"Snippets"
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://ThePeacefulCoder@bitbucket.org/ThePeacefulCoder/better-flutter-tests.git"
+	  },
 	"keywords": [
 		"flutter",
 		"clean code",

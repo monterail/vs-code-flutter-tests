@@ -10,7 +10,7 @@ Boost your TDD-Workflow by:
 * ✅ Dramatically faster test execution  -> Run only the unit tests that affect the file you're currently working on.
 * ✅ Using snippets to avoid writing boilderplate code
 
-## Create test file and switch between tests and code with ⌘+T
+## Create test file or switch between tests and code with ⌘+T
 
 ![create_test_file](./assets/create_test_file.gif)
 

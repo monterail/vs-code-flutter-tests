@@ -44,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
                     terminal = vscode.window.createTerminal("Flutter Tests");
                 }
                 terminal.show();
-                terminal.sendText("flutter test " + pathToExecute);
+                terminal.sendText("flutter test --coverage " + pathToExecute);
             }
         }
     });

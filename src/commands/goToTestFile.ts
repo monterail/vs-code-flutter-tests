@@ -24,22 +24,30 @@ export function activate(context: vscode.ExtensionContext) {
 		var path = vscode.window.activeTextEditor?.document.uri.path;
 
 		if(path !== undefined) {
-			// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
-			// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
-			var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(path));
-	
-			if(searchResultPath !== null) {
-				//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
-	
-				fileOperations.openDocumentInEditor(searchResultPath);
+			if(fileOperations.isPathInLibFolder(path)) {
+				// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
+				// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
+				var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(path));
+		
+				if(searchResultPath !== null) {
+					//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
+		
+					fileOperations.openDocumentInEditor(searchResultPath);
+				}
+				else {
+					//if test file doesn't exist, we recomment to create one :)
+					var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?"}); 
+					if(selection === "Yes" ) {
+						//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
+						testFileCreator.createTestFile(path, className);
+					}	
+				}
+			}
+			else if(fileOperations.isTestFile(path)) {
+				//Do nothing, because we are already in the test file
 			}
 			else {
-				//if test file doesn't exist, we recomment to create one :)
-				var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?"}); 
-				if(selection === "Yes" ) {
-					//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
-					testFileCreator.createTestFile(path, className);
-				}	
+				vscode.window.showErrorMessage(path+" is not in the /lib path of this directory");
 			}
 		}
 		else {

@@ -4,7 +4,8 @@ import * as fs from 'fs';
 import * as fileAnalyse from './file_analyse.js'
 import * as fileOperations from './file_operations.js'
 
-const executeTestCommand = 'better-tests.executeTestsInTestFile'; //TODO: Globale Variable an 2 Stellen
+const executeTestsCommandId = 'better-tests.executeTestsInTestFile'; //TODO: Globale Variable an 2 Stellen
+const gotoTestsCommandId = 'better-tests.goToTestFile'; //TODO: Globale Variable an 2 Stellen
 
 let myStatusBarItem: vscode.StatusBarItem;
 
@@ -47,20 +48,30 @@ function updateStatusBarItem() {
     console.log(fileContent);
 
     var testNumber = fileAnalyse.getNumberOfTests(fileContent);
-    
-    //XXX:
-    //WENN keine Tests gefunden wurden oder die Testdatei nicht gefunden werden konnte, wird das "GoToTests" Kommando hinterlegt (was ist wenn man in einer Testdatei ist?)
-    //WENN Tests gefunden wurden, wird das TestExecution Kommando hinterlegt
 
+    var text: string;
 
-    console.log(testNumber);
+    if(testNumber === 0) {
+      text = `0 Tests`;
+    }
+    else if(testNumber === 1) {
+      text = "1 Test $(checklist)";
+    }
+    else {
+      text = `${testNumber} Tests $(checklist)`;
+    }
 
-    myStatusBarItem.text = `${testNumber} Tests $(thumbsdown) `;
-    myStatusBarItem.command = executeTestCommand;
+    myStatusBarItem.text = text;
+
+    if(testNumber === 0) {
+      //Triggers creation or goto event to test file, if there are no tests present
+      myStatusBarItem.command = gotoTestsCommandId;
+    }
+    else {
+      //Executes the tests
+      myStatusBarItem.command = executeTestsCommandId;
+    }
     myStatusBarItem.show();
-
-
-    
     
   }
   else {

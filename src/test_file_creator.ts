@@ -33,8 +33,9 @@ export function createTestFile(originalFilePath: string, className: string | und
 				testGroupName = className;
 			}
 
-			//TODO: statt dem Dateinamen den Klassennamen extrahieren
-			var testFileContent = getTestFileContent(testGroupName);
+			
+
+			var testFileContent = getTestFileContent(getPackagePath(originalFilePath), testGroupName);
 			//TODO: Checken, ob Datei bereits existiert, um Überschreiben zu verhindern!
 			fs.writeFile(pathOfTestFile, testFileContent, (err) => {
 				if (err) throw err;
@@ -52,6 +53,12 @@ export function createTestFile(originalFilePath: string, className: string | und
 	else {
 		vscode.window.showErrorMessage("File must be inside of /lib folder of your workspace folder");
 	}
+}
+
+function getPackagePath(originalFilePath: string): string {
+	var relativePath = fileOperations.getRelativePathInLibFolder(originalFilePath);
+
+	return relativePath;
 }
 
 //Trys to extract the class name in the given filepath
@@ -81,12 +88,15 @@ function extractPublicClassNames(originalFilePath: string): string[] {
 
 
 
-function getTestFileContent(className: string): string {
+function getTestFileContent(pathToPackage: string, className: string): string {
+	var packageName = fileOperations.getPackageName();
+	
 	return `import 'package:test/test.dart'; 
-		
+import 'package:${packageName}${pathToPackage}';
+
 void main() {
 	group(
-		'${className}', 
+		${className}, 
 		() {
 			test(
 				'',

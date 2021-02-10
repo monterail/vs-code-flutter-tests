@@ -14,10 +14,19 @@ export function isTestFile(filePath: string) : boolean {
 	return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 }
 
+export function getRelativePathInLibFolder(filePath: string): string {
+	if(isPathInLibFolder(filePath)) {
+		var libPath = vscode.workspace.rootPath + "/lib";
+		return filePath.substr(libPath.length);
+	}
+	else {
+		throw `${filePath} is not inside of /lib`;
+	}
+}
+
 /// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string) : string {
-	var libPath = vscode.workspace.rootPath + "/lib";
-	var relativPathToLibFolder = originalFilePath.substr(libPath.length);
+	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
 	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
 
 	if(vscode.workspace.workspaceFolders !== undefined) {
@@ -117,4 +126,22 @@ export function openDocumentInEditor(filePath: string) {
 
 	  vscode.window.showTextDocument(doc);
 	});
+}
+
+//Returns the name of the package from pubspec.yaml
+export function getPackageName() {
+	var pubspecPath = vscode.workspace.rootPath + "/pubspec.yaml";
+
+	var content = fs.readFileSync(pubspecPath).toString();
+	
+	//Search for the line "name: <package-name>" in pubspec.yaml
+	var matches = content.match(/^name: (\w*)/);
+
+	if(matches !== null && matches.length >= 2) {
+		return matches[1];
+	}
+	else {
+		throw "Could not find the package name in pubspec.yaml";
+	}
+
 }

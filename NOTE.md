@@ -8,3 +8,4 @@
 
 https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/a83e53bdbc04ce3c051facd69d7b2031c0871198/assets
 
+`$> vsce publish minor --baseImagesUrl=https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/a83e53bdbc04ce3c051facd69d7b2031c0871198/assets`

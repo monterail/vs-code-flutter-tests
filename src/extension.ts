@@ -17,6 +17,7 @@ import * as goToSourceFileCommand from './commands/goToSourceFile';
 import * as testFileCreator from './test_file_creator'
 
 import * as statusBarItem from './statusBarItem';
+import * as renameWatcher from './rename_watcher';
 
 //Lcov explained
 //https://github.com/mitchhentges/lcov-rs/wiki/File-format
@@ -29,6 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
 	goToSourceFileCommand.activate(context);
 	executeTestsInTestFileCommand.activate(context);
 	statusBarItem.activate();
+
+	renameWatcher.activate();
 }
 
 // this method is called when your extension is deactivated

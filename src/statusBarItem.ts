@@ -19,62 +19,77 @@ export function activate() {
     updateStatusBarItem();
   });
     
-  vscode.workspace.onDidSaveTextDocument(event => {    
+  vscode.workspace.onDidSaveTextDocument(event => {  
     updateStatusBarItem();
   });
 }
 
 function updateStatusBarItem() {
-  if(vscode.window.activeTextEditor !== undefined) {
+  try {
 
-    var document = vscode.window.activeTextEditor.document;
-    var path = document.uri.fsPath;
-    
-    console.log(path);
-    
-    //If we have a source file, get the test file
-    if(fileOperations.isPathInLibFolder(path)) {
-       path = fileOperations.getPathOfTestFile(path)
-    }
+    if(vscode.window.activeTextEditor !== undefined) {
 
-    //If path is not a testfile we cannot show any tests in statusbar
-    if(!fileOperations.isTestFile(path)) {
-      myStatusBarItem.hide();
-      return;
-    }
-
-    var fileContent = fs.readFileSync(path).toString();
+      var document = vscode.window.activeTextEditor.document;
+      var path = document.uri.fsPath;
       
-    console.log(fileContent);
+      console.log(path);
+      
+      //If we have a source file, get the test file
+      if(fileOperations.isPathInLibFolder(path)) {
+        path = fileOperations.getPathOfTestFile(path)
+      }
 
-    var testNumber = fileAnalyse.getNumberOfTests(fileContent);
+      //XXX: Es gibt noch gar keine Testdatei...
 
-    var text: string;
+      //vscode.window.showInformationMessage(path+ " " + fileOperations.isTestFile(path));
 
-    if(testNumber === 0) {
-      text = `0 Tests`;
-    }
-    else if(testNumber === 1) {
-      text = "1 Test $(checklist)";
+      //If path is not a testfile we cannot show any tests in statusbar
+      if(!fileOperations.isTestFile(path)) {
+        myStatusBarItem.hide();
+        return;
+      }
+      
+      var testNumber:number = 0;
+
+      if(!fs.existsSync(path)) { //test file does not exists yet
+        testNumber = 0;
+      }
+      else {
+          var fileContent = fs.readFileSync(path).toString();
+          testNumber = fileAnalyse.getNumberOfTests(fileContent);
+      }
+
+      var text: string;
+
+      if(testNumber === 0) {
+        text = `0 Tests`;
+      }
+      else if(testNumber === 1) {
+        text = "1 Test $(checklist)";
+      }
+      else {
+        text = `${testNumber} Tests $(checklist)`;
+      }
+      
+
+      myStatusBarItem.text = text;
+
+      if(testNumber === 0) {
+        //Triggers creation or goto event to test file, if there are no tests present
+        myStatusBarItem.command = gotoTestsCommandId;
+      }
+      else {
+        //Executes the tests
+        myStatusBarItem.command = executeTestsCommandId;
+      }
+      myStatusBarItem.show();
+      
     }
     else {
-      text = `${testNumber} Tests $(checklist)`;
+      myStatusBarItem.hide();
     }
-
-    myStatusBarItem.text = text;
-
-    if(testNumber === 0) {
-      //Triggers creation or goto event to test file, if there are no tests present
-      myStatusBarItem.command = gotoTestsCommandId;
-    }
-    else {
-      //Executes the tests
-      myStatusBarItem.command = executeTestsCommandId;
-    }
-    myStatusBarItem.show();
-    
   }
-  else {
-    myStatusBarItem.hide();
+  catch (e) {
+    vscode.window.showErrorMessage(e);
   }
 }

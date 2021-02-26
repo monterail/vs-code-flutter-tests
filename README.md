@@ -15,7 +15,7 @@ Boost your TDD-Workflow by:
 **Create test file or switch between tests and code with ⌘+T.**
 **Execute Tests with ⌥+⌘+T**
 
-![create_test_file](./assets/demo-0.2.0.gif)
+![demo-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/6585f9ac2566ecd6731bfa88fb8e6ed088bb52fc/assets/demo-0.2.0.gif)
 
 ## Commands Summary
 

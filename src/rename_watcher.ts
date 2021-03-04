@@ -5,46 +5,50 @@ import * as path from 'path';
 
 
 export function activate() {
-    
+
   //IMPORTANT: For folders this event is only fired once for the folder and not for every file and folder that is inside of this folder
   vscode.workspace.onDidRenameFiles(async event => {
-    event.files.forEach(async (fileChange)  => {
-
-        //XXX: Multiple files in folder handeln mit nested foldern
+    event.files.forEach(async (fileChange) => {
 
 
-        if(fileOperations.isPathInLibFolder(fileChange.oldUri.path)) {
 
+      if (fileOperations.isPathInLibFolder(fileChange.oldUri.path)) {
+
+        var isDirectory = fs.lstatSync(fileChange.newUri.path).isDirectory();
+
+        if (isDirectory == true) {
+          renameFolder(fileChange.oldUri.path, fileChange.newUri.path);
+        }
+        else {
           var oldtestFilePath = fileOperations.getPathOfTestFile(fileChange.oldUri.path);
-          //console.log(oldtestFilePath);
-
           var testFileName = fileOperations.getNameOfTestFile(fileChange.oldUri.path);
 
-          if(fs.existsSync(oldtestFilePath)) {
+          if (fs.existsSync(oldtestFilePath)) {
+
             var selectedItem = await vscode.window.showInformationMessage("Do you want to move/rename " + testFileName + "?", "Yes", "No");
-            if(selectedItem === "Yes") {
-              
+            if (selectedItem === "Yes") {
+
               var newTestFilePath = fileOperations.getPathOfTestFile(fileChange.newUri.path);
-              
+
               //Verzeichnisse die nicht existieren erstellen
-              fs.mkdir(path.dirname(newTestFilePath), { recursive: true }, (err) => {
+              fs.mkdir(path.dirname(newTestFilePath), { recursive: true }, async (err) => {
 
 
-                //XXX: VSCode erkennt nicht, dass die Datei verschoben wurde
-                //-> Müssen nach aktive editors schauen und das modifizieren
-                fs.renameSync(oldtestFilePath,newTestFilePath)
+                //XXX: VSCode erkennt nicht, dass die Datei verschoben wurde wenn sie geöffnet ist, sie wird dann als "gelöscht" angezeigt
+                //-> Müssen nach aktive editors schauen und das modifizieren, scheint es keine API für zu geben :/
+                //-> Issue in Github setzen?
+                //-> window.onDidChangeActiveTextEditor nutzen und die aktiven editoren tracken
 
-                //XXX: Nun leere Ordner, löschen
+                fs.renameSync(oldtestFilePath, newTestFilePath)
 
-                //Dies bezieht sich nicht auf die Open als Registerkarte sichtbaren editoren
-                //var editors = vscode.workspace.;
+                deleteEmptyFoldersRecursively(path.dirname(oldtestFilePath));
 
 
                 //Change Path to sourcefile in test file (path to package)
                 var relativePathOld = fileOperations.getRelativePathInLibFolder(fileChange.oldUri.path);
                 var relativePathNew = fileOperations.getRelativePathInLibFolder(fileChange.newUri.path);
 
-                console.log("Change \n" + relativePathOld + "\n to \n" + relativePathNew);
+                console.log("Change \n" + relativePathOld + "\n to \n" + relativePathNew + "\nin " + newTestFilePath);
                 var content = fs.readFileSync(newTestFilePath).toString();
                 var content = content.replace(relativePathOld, relativePathNew);
                 fs.writeFileSync(newTestFilePath, content);
@@ -54,14 +58,67 @@ export function activate() {
                 vscode.window.showInformationMessage("Moved file to " + newTestFilePath);
               });
 
-              
+
             }
 
           }
         }
+      }
 
-        
     });
   });
+
+}
+
+///Goes bottom of from folderPath and deleted empty folders
+function deleteEmptyFoldersRecursively(folderPath: string) {
+  if(fileOperations.isDirectoryEmpty(folderPath)) {
+    fs.rmdirSync(folderPath);
+    deleteEmptyFoldersRecursively(path.dirname(folderPath));
+  }
+}
+
+
+//XXX: Multiple files in folder handeln mit nested foldern
+
+//Rekursiv durch alle Dateien durch gehen?
+//1. Fall -> Name hat sich geändert, dann muss auch nur der Name des Ordners geändert werden
+//2. Fall -> Verschoben, dann muss auch dort nur der Name verschoben werden
+
+//Rekursiv muss allerdings der File-Path angepasst werden :/
+async function renameFolder(oldPath: string, newPath: string) {
+  var oldTestFolder = fileOperations.getPathOfTestFolder(oldPath);
+  
+  console.log(oldTestFolder);
+  
+  if (fs.existsSync(oldTestFolder)) {
+    
+    var selectedItem = await vscode.window.showInformationMessage("Do you want to move/rename " + path.basename(oldTestFolder) + " in /test and it's children ?", "Yes", "No");
+    if (selectedItem === "Yes") {
+      
+      var newTestFolder = fileOperations.getPathOfTestFolder(newPath);
+
+      //Verzeichnisse die nicht existieren erstellen
+      fs.mkdir(path.dirname(newTestFolder), { recursive: true }, (err) => {
+
+        fs.renameSync(oldTestFolder, newTestFolder)
+      
+        //XXX: deleteEmptyFoldersRecursively(path.dirname(oldTestFolder))
+
+        var relativePathOld = fileOperations.getRelativePathInLibFolder(oldPath);
+        var relativePathNew = fileOperations.getRelativePathInLibFolder(newPath);
+
+        //Besser wäre noch "package:testfolder/" davor zusetzen, ist sicherer
+
+        console.log("Change \n" + relativePathOld + "\n to \n" + relativePathNew);
+        //XXX: Path to package in allen nested files und foldern ändern...
+
+
+
+      });
+
+    }
+
+  }
 
 }

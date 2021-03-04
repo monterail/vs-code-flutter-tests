@@ -24,6 +24,26 @@ export function getRelativePathInLibFolder(filePath: string): string {
 	}
 }
 
+export function isDirectoryEmpty(folderPath: string) {
+	return fs.readdirSync(folderPath).length === 0
+}
+
+///Takes a folderName!!!
+export function getPathOfTestFolder(originalFolderPath: string) : string {
+	var relativPathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
+	var testFolder = "test" + relativPathToLibFolder; //path.dirname(relativPathToLibFolder);
+
+	if(vscode.workspace.workspaceFolders !== undefined) {
+		var rootPath = vscode.workspace.workspaceFolders[0].uri.path
+		return rootPath + "/" + testFolder;
+	}
+	else {
+		throw "No open workspaceFolders";
+	}
+
+	
+}
+
 /// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string) : string {
 	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);

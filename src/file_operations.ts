@@ -24,6 +24,39 @@ export function getRelativePathInLibFolder(filePath: string): string {
 	}
 }
 
+///returns all paths of files in nested folders.
+///can be used so: for (let filePath of walkSync(parentFolderPath)) {...
+export function *walkSync(dir: string) : Generator<string, any, undefined>{
+	const files = fs.readdirSync(dir, { withFileTypes: true });
+	for (let i = 0; i < files.length; i++) {
+	  if (files[i].isDirectory()) {
+		yield* walkSync(path.join(dir, files[i].name));
+	  } else {
+		yield path.join(dir, files[i].name);
+	  }
+	}
+  }
+
+export function isDirectoryEmpty(folderPath: string) {
+	return fs.readdirSync(folderPath).length === 0
+}
+
+///Takes a folderName!!!
+export function getPathOfTestFolder(originalFolderPath: string) : string {
+	var relativPathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
+	var testFolder = "test" + relativPathToLibFolder; //path.dirname(relativPathToLibFolder);
+
+	if(vscode.workspace.workspaceFolders !== undefined) {
+		var rootPath = vscode.workspace.workspaceFolders[0].uri.path
+		return rootPath + "/" + testFolder;
+	}
+	else {
+		throw "No open workspaceFolders";
+	}
+
+	
+}
+
 /// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string) : string {
 	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);

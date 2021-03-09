@@ -24,6 +24,19 @@ export function getRelativePathInLibFolder(filePath: string): string {
 	}
 }
 
+///returns all paths of files in nested folders.
+///can be used so: for (let filePath of walkSync(parentFolderPath)) {...
+export function *walkSync(dir: string) : Generator<string, any, undefined>{
+	const files = fs.readdirSync(dir, { withFileTypes: true });
+	for (let i = 0; i < files.length; i++) {
+	  if (files[i].isDirectory()) {
+		yield* walkSync(path.join(dir, files[i].name));
+	  } else {
+		yield path.join(dir, files[i].name);
+	  }
+	}
+  }
+
 export function isDirectoryEmpty(folderPath: string) {
 	return fs.readdirSync(folderPath).length === 0
 }

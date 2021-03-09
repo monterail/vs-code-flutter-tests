@@ -43,7 +43,6 @@ export function activate() {
 
                 deleteEmptyFoldersRecursively(path.dirname(oldtestFilePath));
 
-
                 //Change Path to sourcefile in test file (path to package)
                 var relativePathOld = fileOperations.getRelativePathInLibFolder(fileChange.oldUri.path);
                 var relativePathNew = fileOperations.getRelativePathInLibFolder(fileChange.newUri.path);
@@ -53,24 +52,18 @@ export function activate() {
                 var content = content.replace(relativePathOld, relativePathNew);
                 fs.writeFileSync(newTestFilePath, content);
 
-
-
                 vscode.window.showInformationMessage("Moved file to " + newTestFilePath);
               });
-
-
             }
-
           }
         }
       }
-
     });
   });
 
 }
 
-///Goes bottom of from folderPath and deleted empty folders
+///Goes bottom up from folderPath and deletes empty folders
 function deleteEmptyFoldersRecursively(folderPath: string) {
   if(fileOperations.isDirectoryEmpty(folderPath)) {
     fs.rmdirSync(folderPath);
@@ -103,7 +96,7 @@ async function renameFolder(oldPath: string, newPath: string) {
 
         fs.renameSync(oldTestFolder, newTestFolder)
       
-        //XXX: deleteEmptyFoldersRecursively(path.dirname(oldTestFolder))
+        deleteEmptyFoldersRecursively(path.dirname(oldTestFolder))
 
         var relativePathOld = fileOperations.getRelativePathInLibFolder(oldPath);
         var relativePathNew = fileOperations.getRelativePathInLibFolder(newPath);
@@ -113,12 +106,20 @@ async function renameFolder(oldPath: string, newPath: string) {
         console.log("Change \n" + relativePathOld + "\n to \n" + relativePathNew);
         //XXX: Path to package in allen nested files und foldern ändern...
 
-
+        updatePathToPackageRecusivly(newTestFolder, relativePathOld, relativePathNew);
 
       });
 
     }
 
   }
-
 }
+
+function updatePathToPackageRecusivly(parentFolderPath: string, searchText: string, replaceText: string ) : void {
+      for (let filePath of fileOperations.walkSync(parentFolderPath)) {
+        var content = fs.readFileSync(filePath).toString();
+        content = content.replace(searchText, replaceText);
+        fs.writeFileSync(filePath, content);
+      }
+  }
+

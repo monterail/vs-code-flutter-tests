@@ -9,6 +9,7 @@ Boost your TDD-Workflow by:
 * ✅ Switching between `xyz.dart` file and the associated `xyz_test.dart` file instantly 
 * ✅ Dramatically faster test execution  -> Run only the unit tests that affect the file you're currently working on.
 * ✅ Using snippets to avoid writing boilderplate code
+* ✅ Automatically keep file and folder structure in sync between /lib and /test even if you rename or move a file or folder
 
 ## Demo
 
@@ -16,6 +17,11 @@ Boost your TDD-Workflow by:
 **Execute Tests with ⌥+⌘+T**
 
 ![demo-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/6585f9ac2566ecd6731bfa88fb8e6ed088bb52fc/assets/demo-0.2.0.gif)
+
+**Keep file and folder structure in sync after rename or move operations**
+
+![rename-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/6585f9ac2566ecd6731bfa88fb8e6ed088bb52fc/assets/demo_rename.gif)
+
 
 ## Commands Summary
 

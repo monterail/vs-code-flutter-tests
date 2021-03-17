@@ -20,7 +20,7 @@ Boost your TDD-Workflow by:
 
 **Keep file and folder structure in sync after rename or move operations**
 
-![rename-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/6585f9ac2566ecd6731bfa88fb8e6ed088bb52fc/assets/demo_rename.gif)
+![rename-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/10e202bfc4e1c121fbb4846e8dc7e3694e5482cf/assets/demo_rename.gif)
 
 
 ## Commands Summary

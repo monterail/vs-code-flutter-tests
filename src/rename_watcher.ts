@@ -106,18 +106,18 @@ async function renameFolder(oldPath: string, newPath: string) {
         console.log("Change \n" + relativePathOld + "\n to \n" + relativePathNew);
         //XXX: Path to package in allen nested files und foldern ändern...
 
-        updatePathToPackageRecusivly(newTestFolder, relativePathOld, relativePathNew);
+        updatePathToPackageRecursively(newTestFolder, relativePathOld, relativePathNew);
 
       });
-
     }
-
   }
 }
 
-function updatePathToPackageRecusivly(parentFolderPath: string, searchText: string, replaceText: string ) : void {
+function updatePathToPackageRecursively(parentFolderPath: string, searchText: string, replaceText: string ) : void {
       for (let filePath of fileOperations.walkSync(parentFolderPath)) {
         var content = fs.readFileSync(filePath).toString();
+
+        //XXX: Scheinbar wird nur das erste vorkommen replaced :/
         content = content.replace(searchText, replaceText);
         fs.writeFileSync(filePath, content);
       }

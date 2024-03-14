@@ -4,8 +4,16 @@ import * as path from 'path';
 
 /// Looks, if the path is in /lib folder
 export function isPathInLibFolder(path: string): boolean {
-	var libPath = vscode.workspace.rootPath + "/lib";
-	return path.indexOf(libPath) === 0;
+
+	if ((process.platform === 'darwin')) {
+		var libPath = vscode.workspace.rootPath + "/lib";
+		return path.indexOf(libPath) === 0;
+	} else {
+		var libPath = vscode.workspace.rootPath + "/lib";
+		var libPathFull = libPath.replace(/\//g, "\\");
+		return path.indexOf(libPathFull) === 0;
+	}
+	
 }
 
 export function isTestFile(filePath: string): boolean {
@@ -16,15 +24,15 @@ export function isTestFile(filePath: string): boolean {
 
 export function getRelativePathInLibFolder(filePath: string): string {
 	if (isPathInLibFolder(filePath)) {
-		var libPath = vscode.workspace.rootPath + "/lib";
+	
 		if ((process.platform === 'darwin')) {
-			vscode.window.showInformationMessage("MAC!");
+			var libPath = vscode.workspace.rootPath + "/lib";
 			vscode.window.showInformationMessage(filePath.substr(libPath.length));
 			return filePath.substr(libPath.length);
 		} else {
+			var libPath = vscode.workspace.rootPath + "\\lib";
 			var notMacPath = filePath.substr(libPath.length).replace(/\//g, "\\");
-			vscode.window.showInformationMessage("NOT MAC!");
-			vscode.window.showInformationMessage(notMacPath);
+			//  vscode.window.showInformationMessage(notMacPath);
 			return notMacPath;
 		}
 
@@ -53,6 +61,9 @@ export function isDirectoryEmpty(folderPath: string) {
 
 ///Takes a folderName!!!
 export function getPathOfTestFolder(originalFolderPath: string): string {
+	vscode.window.showInformationMessage(
+		'getPathOfTestFolder'
+	);
 	var relativPathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
 	var testFolder = "test" + relativPathToLibFolder; //path.dirname(relativPathToLibFolder);
 
@@ -78,20 +89,20 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 
 /// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string): string {
-	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
-	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
 
+	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
+	vscode.window.showInformationMessage(
+		'relativPathToLibFolder'
+	);
+	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
 	if (vscode.workspace.workspaceFolders !== undefined) {
 		var rootPath = vscode.workspace.workspaceFolders[0].uri.path;
-
 		if ((process.platform === 'darwin')) {
-			vscode.window.showInformationMessage("MAC!");
-
 			return rootPath + "/" + folderOfTestFile + "/" + getNameOfTestFile(originalFilePath);
 		} else {
-			vscode.window.showInformationMessage("NOT MAC!");
-
-			return (rootPath + "/" + folderOfTestFile + "/" + getNameOfTestFile(originalFilePath)).replace(/\//g, "\\");
+			// /c:/Users/PC/Desktop/flutter/flutter_application_1 / test\src\sample_feature / sample_item_test.dart
+			// .replace(/\//g, "\\") 
+			return rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath);
 		}
 
 	}
@@ -116,8 +127,9 @@ export function getNameOfSourceFile(originalFilePath: string): string {
 
 export function getNameOfTestFile(originalFilePath: string): string {
 	var nameOfOriginalFile = path.basename(originalFilePath, path.extname(originalFilePath));
+	// vscode.window.showInformationMessage(nameOfOriginalFile);
 	var nameOfTestFile = nameOfOriginalFile + "_test" + path.extname(originalFilePath);
-
+	// vscode.window.showInformationMessage(nameOfTestFile);
 	return nameOfTestFile;
 }
 
@@ -130,7 +142,6 @@ export function searchSourceFilePath(source_file_name: string): string | null {
 		var result = findPathsWithFileName(pathOfSourceFolder, source_file_name, []);
 	} else {
 		var pathOfSourceFolder = vscode.workspace.rootPath + "/lib";
-
 		var result = findPathsWithFileName(pathOfSourceFolder.replace(/\//g, "\\"), source_file_name, []);
 	}
 
@@ -144,10 +155,17 @@ export function searchSourceFilePath(source_file_name: string): string | null {
 }
 
 export function searchTestFilePath(test_file_name: string): string | null {
+	if ((process.platform === 'darwin')) {
+		vscode.window.showInformationMessage("MAC!");
+		var pathOfTestFolder = vscode.workspace.rootPath + "/test";
+		var result = findPathsWithFileName(pathOfTestFolder, test_file_name, []);
 
-	var pathOfTestFolder = vscode.workspace.rootPath + "/test";
-
-	var result = findPathsWithFileName(pathOfTestFolder, test_file_name, []);
+	} else {
+		// vscode.window.showInformationMessage("NOT MAC 2!");
+		var pathOfTestFolder = vscode.workspace.rootPath + "/test";
+		let resultPath = pathOfTestFolder.replace(/\//g, "\\");
+		var result = findPathsWithFileName(resultPath, test_file_name, []);
+	}
 
 	if (result.length >= 1) {
 		return result[0];

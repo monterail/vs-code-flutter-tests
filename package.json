@@ -67,20 +67,20 @@
 		"keybindings": [
 			{
 				"command": "better-tests.goToTestFile",
-				"key": "ctrl+T",
-				"mac": "cmd+T",
+				"key": "ctrl+shift+T",
+				"mac": "cmd+shift+T",
 				"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/"
 			},
 			{
 				"command": "better-tests.goToSourceFile",
-				"key": "ctrl+T",
-				"mac": "cmd+T",
+				"key": "ctrl+shift+T",
+				"mac": "cmd+shift+T",
 				"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/"
 			},
 			{
 				"command": "better-tests.executeTestsInTestFile",
-				"key": "ctrl+alt+T",
-				"mac": "cmd+alt+T",
+				"key": "ctrl+alt+shift+R",
+				"mac": "cmd+alt+shift+R",
 				"when": "resourceLangId == dart"
 			}
 		],

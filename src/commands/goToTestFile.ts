@@ -23,36 +23,78 @@ export function activate(context: vscode.ExtensionContext) {
 
 		var path = vscode.window.activeTextEditor?.document.uri.path;
 
-		if(path !== undefined) {
-			if(fileOperations.isPathInLibFolder(path)) {
-				// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
-				// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
-				var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(path));
-		
-				if(searchResultPath !== null) {
-					//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
-		
-					fileOperations.openDocumentInEditor(searchResultPath);
+		if ((process.platform === 'darwin')) {
+			if(path !== undefined) {
+				if(fileOperations.isPathInLibFolder(path)) {
+					// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
+					// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
+					var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(path));
+			
+					if(searchResultPath !== null) {
+						//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
+			
+						fileOperations.openDocumentInEditor(searchResultPath);
+					}
+					else {
+						//if test file doesn't exist, we recomment to create one :)
+						var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?"}); 
+						if(selection === "Yes" ) {
+							//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
+							testFileCreator.createTestFile(path, className);
+						}	
+					}
+				}
+				else if(fileOperations.isTestFile(path)) {
+					//Do nothing, because we are already in the test file
 				}
 				else {
-					//if test file doesn't exist, we recomment to create one :)
-					var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?"}); 
-					if(selection === "Yes" ) {
-						//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
-						testFileCreator.createTestFile(path, className);
-					}	
+					vscode.window.showErrorMessage(path+" is not in the /lib path of this directory");
 				}
 			}
-			else if(fileOperations.isTestFile(path)) {
-				//Do nothing, because we are already in the test file
+			else {
+				vscode.window.showErrorMessage("Could not get path of currently open file in explorer");
+			}
+		} else {
+			if(path !== undefined) {
+			
+				var result = path.substr(1).replace(/\//g, "\\");
+			
+				// c:\Users\PC\Desktop\flutter\flutter_application_1\lib\src\sample_feature\sample_item.dart
+				if(fileOperations.isPathInLibFolder(result)) {
+					// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
+					// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
+					// vscode.window.showInformationMessage(result);
+					var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(result));
+				
+					if(searchResultPath !== null) {
+						vscode.window.showInformationMessage(searchResultPath);
+						//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
+			
+						fileOperations.openDocumentInEditor(searchResultPath);
+					}
+					else {
+						//if test file doesn't exist, we recomment to create one :)
+						var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(result) + "' in 'test/'. Do you want to create it?"}); 
+						if(selection === "Yes" ) {
+					
+							//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
+							testFileCreator.createTestFile(result, className);
+						}	
+					}
+				}
+				else if(fileOperations.isTestFile(result)) {
+					//Do nothing, because we are already in the test file
+				}
+				else {
+					vscode.window.showErrorMessage(result+" is not in the /lib path of this directory");
+				}
 			}
 			else {
-				vscode.window.showErrorMessage(path+" is not in the /lib path of this directory");
+				vscode.window.showErrorMessage("Could not get path of currently open file in explorer");
 			}
 		}
-		else {
-			vscode.window.showErrorMessage("Could not get path of currently open file in explorer");
-		}
+
+
     });
     
     context.subscriptions.push(disposable);

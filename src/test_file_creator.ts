@@ -7,9 +7,8 @@ export function createTestFile(originalFilePath: string, className: string | und
 
 	//Get relative file path to /lib folder 
 	if (fileOperations.isPathInLibFolder(originalFilePath)) {
-
 		var pathOfTestFile = fileOperations.getPathOfTestFile(originalFilePath);
-
+		vscode.window.showInformationMessage(pathOfTestFile);
 		fs.mkdir(path.dirname(pathOfTestFile), { recursive: true }, (err) => {
 			if (err) throw err;
 
@@ -39,8 +38,6 @@ export function createTestFile(originalFilePath: string, className: string | und
 			//TODO: Checken, ob Datei bereits existiert, um Überschreiben zu verhindern!
 			fs.writeFile(pathOfTestFile, testFileContent, (err) => {
 				if (err) throw err;
-
-				//console.log("Test File created");
 
 				vscode.window.showInformationMessage("Success: Test File Created!");
 				fileOperations.openDocumentInEditor(pathOfTestFile);
@@ -90,9 +87,8 @@ function extractPublicClassNames(originalFilePath: string): string[] {
 
 function getTestFileContent(pathToPackage: string, className: string): string {
 	var packageName = fileOperations.getPackageName();
-
 	return `import 'package:flutter_test/flutter_test.dart'; 
-import 'package:${packageName}${pathToPackage}';
+import 'package:${packageName.replace(/\\/g, "/")}${pathToPackage.replace(/\\/g, "/")}';
 
 void main() {
 	group(

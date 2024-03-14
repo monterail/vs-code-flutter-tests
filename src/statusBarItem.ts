@@ -90,6 +90,6 @@ function updateStatusBarItem() {
     }
   }
   catch (e) {
-    vscode.window.showErrorMessage(e);
+    // vscode.window.showErrorMessage(e);
   }
 }

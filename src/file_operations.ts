@@ -23,8 +23,9 @@ export function isTestFile(filePath: string): boolean {
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	} else {
 		var testPath = vscode.workspace.rootPath + "\\test";
-		var capitalizedStr = testPath.charAt(0).toUpperCase() + testPath.slice(1);
-		return filePath.indexOf(capitalizedStr) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
+		// var capitalizedStr = testPath.charAt(0).toUpperCase() + testPath.slice(1);
+		// vscode.window.showInformationMessage(capitalizedStr);
+		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	}
 
 }

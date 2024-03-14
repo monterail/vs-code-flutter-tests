@@ -46,13 +46,13 @@ export function activate(context: vscode.ExtensionContext) {
             if (path !== undefined) {
                 var pathToExecute: string | undefined;
             	var result = path.substr(1).replace(/\//g, "\\");
-           
                 if (fileOperations.isTestFile(result)) {
                     var rootPath = vscode.workspace.rootPath || ""; 
             
                     pathToExecute = result.substr(rootPath.length + 1);
                 }
                 else if (fileOperations.isPathInLibFolder(result)) {
+              
                     var testFilePath = fileOperations.getPathOfTestFile(result);
                     if (fs.existsSync(testFilePath)) {
                         var rootPath = vscode.workspace.rootPath || "";
@@ -62,6 +62,8 @@ export function activate(context: vscode.ExtensionContext) {
                       
                     }
                 }
+
+                vscode.window.showInformationMessage('bro!');
     
                 if (pathToExecute !== undefined) {
                     if (!terminal) {

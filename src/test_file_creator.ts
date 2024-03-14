@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as fileOperations from './file_operations';
 
-export function createTestFile(originalFilePath: string, className: string | undefined) {
+export function createTestFile(originalFilePath: string, className: string | undefined, testType: string ) {
 
 	//Get relative file path to /lib folder 
 	if (fileOperations.isPathInLibFolder(originalFilePath)) {
@@ -34,7 +34,7 @@ export function createTestFile(originalFilePath: string, className: string | und
 
 
 
-			var testFileContent = getTestFileContent(getPackagePath(originalFilePath), testGroupName);
+			var testFileContent = getTestFileContent(getPackagePath(originalFilePath), testGroupName, testType);
 			//TODO: Checken, ob Datei bereits existiert, um Überschreiben zu verhindern!
 			fs.writeFile(pathOfTestFile, testFileContent, (err) => {
 				if (err) throw err;
@@ -85,21 +85,33 @@ function extractPublicClassNames(originalFilePath: string): string[] {
 
 
 
-function getTestFileContent(pathToPackage: string, className: string): string {
-	var packageName = fileOperations.getPackageName();
-	return `import 'package:flutter_test/flutter_test.dart'; 
-import 'package:${packageName.replace(/\\/g, "/")}${pathToPackage.replace(/\\/g, "/")}';
+function getTestFileContent(pathToPackage: string, className: string, testType: string): string {
 
-void main() {
-	group(
-		'${className}', 
-		() {
-			test(
-				'',
-				() async {
-				},
-			);
-		},
-	);
+	if(testType === 'test') {
+		var packageName = fileOperations.getPackageName();
+		return `import 'package:flutter_test/flutter_test.dart'; 
+	import 'package:${packageName.replace(/\\/g, "/")}${pathToPackage.replace(/\\/g, "/")}';
+	
+	void main() {
+		group(
+			'${className}', 
+			() {
+				test(
+					'',
+					() async {
+					},
+				);
+			},
+		);
+	}`;
+	} else {
+		var packageName = fileOperations.getPackageName();
+		return `import 'package:flutter_test/flutter_test.dart'; 
+	import 'package:${packageName.replace(/\\/g, "/")}${pathToPackage.replace(/\\/g, "/")}';
+	
+	void main() {
+		testWidgets('Widget description', (tester) async {
+		  // Test code goes here.
+		});
 }`;
-}
+}}

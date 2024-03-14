@@ -39,8 +39,14 @@ export function activate(context: vscode.ExtensionContext) {
 						//if test file doesn't exist, we recomment to create one :)
 						var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?"}); 
 						if(selection === "Yes" ) {
-							//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
-							testFileCreator.createTestFile(path, className);
+							var selectionSecondStep = await vscode.window.showQuickPick(["test", "testWidget"], {"placeHolder": "Chose initial widget type -- unit or widget."}); 
+
+							if(selectionSecondStep === "test" ) {
+								testFileCreator.createTestFile(path, className, selectionSecondStep);
+							} else {
+								testFileCreator.createTestFile(path, className, 'testWidget');
+							}
+						
 						}	
 					}
 				}
@@ -76,9 +82,13 @@ export function activate(context: vscode.ExtensionContext) {
 						//if test file doesn't exist, we recomment to create one :)
 						var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(result) + "' in 'test/'. Do you want to create it?"}); 
 						if(selection === "Yes" ) {
-					
-							//Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
-							testFileCreator.createTestFile(result, className);
+							var selectionSecondStep = await vscode.window.showQuickPick(["test", "testWidget"], {"placeHolder": "Choose initial widget type -- unit or widget."}); 
+
+							if(selectionSecondStep === "test" ) {
+								testFileCreator.createTestFile(result, className, selectionSecondStep);
+							} else {
+								testFileCreator.createTestFile(result, className, 'testWidget');
+							}
 						}	
 					}
 				}

@@ -11,22 +11,45 @@ export function activate(context: vscode.ExtensionContext) {
 		// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
 
 		var path = vscode.window.activeTextEditor?.document.uri.path;
-		if(path !== undefined) {
-			var searchResultPath = fileOperations.searchSourceFilePath(fileOperations.getNameOfSourceFile(path));
-	
-			if(searchResultPath !== null) {
-				//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
-	
-				fileOperations.openDocumentInEditor(searchResultPath);
+
+		if ((process.platform === 'darwin')) {
+			if(path !== undefined) {
+				var searchResultPath = fileOperations.searchSourceFilePath(fileOperations.getNameOfSourceFile(path));
+		
+				if(searchResultPath !== null) {
+					//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
+		
+					fileOperations.openDocumentInEditor(searchResultPath);
+				}
+				else {
+					vscode.window.showInformationMessage("Could not find test '" + fileOperations.getNameOfSourceFile(path) + "' in 'test/'. Do you want to create it?")
+		
+				}
 			}
 			else {
-				vscode.window.showInformationMessage("Could not find test '" + fileOperations.getNameOfSourceFile(path) + "' in 'test/'. Do you want to create it?")
-	
+				vscode.window.showErrorMessage("Could not get path of currently open file in explorer");
+			}
+		} else {
+			if(path !== undefined) {
+				var result = path.replace(/\//g, "\\");
+				var searchResultPath = fileOperations.searchSourceFilePath(fileOperations.getNameOfSourceFile(result));
+		
+				if(searchResultPath !== null) {
+					//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
+		
+					fileOperations.openDocumentInEditor(searchResultPath);
+				}
+				else {
+					vscode.window.showInformationMessage("Could not find test '" + fileOperations.getNameOfSourceFile(path) + "' in 'test\\'. Do you want to create it?")
+		
+				}
+			}
+			else {
+				vscode.window.showErrorMessage("Could not get path of currently open file in explorer");
 			}
 		}
-		else {
-			vscode.window.showErrorMessage("Could not get path of currently open file in explorer");
-		}
+
+
     });
     
     context.subscriptions.push(disposableGoToSource);

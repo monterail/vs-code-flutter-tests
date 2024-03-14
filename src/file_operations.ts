@@ -17,9 +17,16 @@ export function isPathInLibFolder(path: string): boolean {
 }
 
 export function isTestFile(filePath: string): boolean {
-	var testPath = vscode.workspace.rootPath + "/test";
+	if ((process.platform === 'darwin')) {
+		var testPath = vscode.workspace.rootPath + "/test";
 
-	return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
+		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
+	} else {
+		var testPath = vscode.workspace.rootPath + "\\test";
+		var capitalizedStr = testPath.charAt(0).toUpperCase() + testPath.slice(1);
+		return filePath.indexOf(capitalizedStr) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
+	}
+
 }
 
 export function getRelativePathInLibFolder(filePath: string): string {
@@ -27,7 +34,7 @@ export function getRelativePathInLibFolder(filePath: string): string {
 	
 		if ((process.platform === 'darwin')) {
 			var libPath = vscode.workspace.rootPath + "/lib";
-			vscode.window.showInformationMessage(filePath.substr(libPath.length));
+		
 			return filePath.substr(libPath.length);
 		} else {
 			var libPath = vscode.workspace.rootPath + "\\lib";
@@ -61,9 +68,6 @@ export function isDirectoryEmpty(folderPath: string) {
 
 ///Takes a folderName!!!
 export function getPathOfTestFolder(originalFolderPath: string): string {
-	vscode.window.showInformationMessage(
-		'getPathOfTestFolder'
-	);
 	var relativPathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
 	var testFolder = "test" + relativPathToLibFolder; //path.dirname(relativPathToLibFolder);
 
@@ -71,10 +75,8 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 		var rootPath = vscode.workspace.workspaceFolders[0].uri.path;
 
 		if ((process.platform === 'darwin')) {
-			vscode.window.showInformationMessage("MAC!");
 			return rootPath + "/" + testFolder;
 		} else {
-			vscode.window.showInformationMessage("NOT MAC!");
 			var test = rootPath + "/" + testFolder;
 			return test.replace(/\//g, "\\");
 		}
@@ -91,17 +93,12 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 export function getPathOfTestFile(originalFilePath: string): string {
 
 	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
-	vscode.window.showInformationMessage(
-		'relativPathToLibFolder'
-	);
 	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
 	if (vscode.workspace.workspaceFolders !== undefined) {
 		var rootPath = vscode.workspace.workspaceFolders[0].uri.path;
 		if ((process.platform === 'darwin')) {
 			return rootPath + "/" + folderOfTestFile + "/" + getNameOfTestFile(originalFilePath);
 		} else {
-			// /c:/Users/PC/Desktop/flutter/flutter_application_1 / test\src\sample_feature / sample_item_test.dart
-			// .replace(/\//g, "\\") 
 			return rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath);
 		}
 
@@ -114,9 +111,10 @@ export function getPathOfTestFile(originalFilePath: string): string {
 
 export function getNameOfSourceFile(originalFilePath: string): string {
 	var nameOfOriginalFile = path.basename(originalFilePath);
+
 	var idx = nameOfOriginalFile.indexOf("_test.dart");
+
 	if (idx === -1) {
-		//TODO: Throw Exception, its not a test file
 		return "";
 	}
 	else {
@@ -156,12 +154,10 @@ export function searchSourceFilePath(source_file_name: string): string | null {
 
 export function searchTestFilePath(test_file_name: string): string | null {
 	if ((process.platform === 'darwin')) {
-		vscode.window.showInformationMessage("MAC!");
 		var pathOfTestFolder = vscode.workspace.rootPath + "/test";
 		var result = findPathsWithFileName(pathOfTestFolder, test_file_name, []);
 
 	} else {
-		// vscode.window.showInformationMessage("NOT MAC 2!");
 		var pathOfTestFolder = vscode.workspace.rootPath + "/test";
 		let resultPath = pathOfTestFolder.replace(/\//g, "\\");
 		var result = findPathsWithFileName(resultPath, test_file_name, []);
@@ -198,17 +194,21 @@ export function findPathsWithFileName(baseFolder: string, fileName: string, resu
 }
 
 export function openDocumentInEditor(filePath: string) {
+	vscode.window.showInformationMessage(filePath);
+	if ((process.platform === 'darwin')) {
+		var openPath = vscode.Uri.parse("file://" + filePath);
 
-	//console.log("Open File: " + filePath);
+		vscode.workspace.openTextDocument(openPath).then(doc => {
+			vscode.window.showTextDocument(doc);
+		});
+	} else {
+		var openPath = vscode.Uri.parse("file:\\\\" + filePath);
 
-	var openPath = vscode.Uri.parse("file://" + filePath);
-	vscode.workspace.openTextDocument(openPath).then(doc => {
+		vscode.workspace.openTextDocument(openPath).then(doc => {
+			vscode.window.showTextDocument(doc);
+		});
+	}
 
-		//console.log("Opened " + openPath);
-
-
-		vscode.window.showTextDocument(doc);
-	});
 }
 
 //Returns the name of the package from pubspec.yaml

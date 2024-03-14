@@ -15,38 +15,64 @@ export function activate(context: vscode.ExtensionContext) {
         //if test file doesn't exist, we recomment to create one :) 
 
         var path = vscode.window.activeTextEditor?.document.uri.path;
-        if (path !== undefined) {
-            var pathToExecute: string | undefined;
-
-            if (fileOperations.isTestFile(path)) {
-                var rootPath = vscode.workspace.rootPath || "";
-                pathToExecute = path.substr(rootPath.length + 1);
-            }
-            else if (fileOperations.isPathInLibFolder(path)) {
-                var testFilePath = fileOperations.getPathOfTestFile(path);
-                if (fs.existsSync(testFilePath)) {
+        if ((process.platform === 'darwin')) {
+            if (path !== undefined) {
+                var pathToExecute: string | undefined;
+    
+                if (fileOperations.isTestFile(path)) {
                     var rootPath = vscode.workspace.rootPath || "";
-                    pathToExecute = testFilePath.substr(rootPath.length + 1);
+                    pathToExecute = path.substr(rootPath.length + 1);
                 }
-                else {
-                    //TODO: Entweder Fehlermeldung anzeigen, oder an GoToTests weiterleiten
-
-                    // var selection = await vscode.window.showQuickPick(["Yes", "No"], { "placeHolder": "Could not find test '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?" });
-                    // if (selection === "Yes") {
-                    //     //Idee: Parsen der Datei und einen Selection Dialog anzeigen, für welche Methoden bereits tests angelegt werden könnten?
-                    //     testFileCreator.createTestFile(path);
-                    // }
+                else if (fileOperations.isPathInLibFolder(path)) {
+                    var testFilePath = fileOperations.getPathOfTestFile(path);
+                    if (fs.existsSync(testFilePath)) {
+                        var rootPath = vscode.workspace.rootPath || "";
+                        pathToExecute = testFilePath.substr(rootPath.length + 1);
+                    }
+                    else {
+                      
+                    }
+                }
+    
+                if (pathToExecute !== undefined) {
+                    if (!terminal) {
+                        terminal = vscode.window.createTerminal("Flutter Tests");
+                    }
+                    terminal.show();
+                    terminal.sendText("flutter test --coverage " + pathToExecute);
                 }
             }
-
-            if (pathToExecute !== undefined) {
-                if (!terminal) {
-                    terminal = vscode.window.createTerminal("Flutter Tests");
+        } else {
+            if (path !== undefined) {
+                var pathToExecute: string | undefined;
+            	var result = path.substr(1).replace(/\//g, "\\");
+           
+                if (fileOperations.isTestFile(result)) {
+                    var rootPath = vscode.workspace.rootPath || ""; 
+            
+                    pathToExecute = result.substr(rootPath.length + 1);
                 }
-                terminal.show();
-                terminal.sendText("flutter test --coverage " + pathToExecute);
+                else if (fileOperations.isPathInLibFolder(result)) {
+                    var testFilePath = fileOperations.getPathOfTestFile(result);
+                    if (fs.existsSync(testFilePath)) {
+                        var rootPath = vscode.workspace.rootPath || "";
+                        pathToExecute = testFilePath.substr(rootPath.length + 1);
+                    }
+                    else {
+                      
+                    }
+                }
+    
+                if (pathToExecute !== undefined) {
+                    if (!terminal) {
+                        terminal = vscode.window.createTerminal("Flutter Tests");
+                    }
+                    terminal.show();
+                    terminal.sendText("flutter test --coverage " + pathToExecute);
+                }
             }
         }
+   
     });
 
     context.subscriptions.push(disposableExecuteTests);

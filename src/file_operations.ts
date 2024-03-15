@@ -23,8 +23,6 @@ export function isTestFile(filePath: string): boolean {
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	} else {
 		var testPath = vscode.workspace.rootPath + "\\test";
-		// var capitalizedStr = testPath.charAt(0).toUpperCase() + testPath.slice(1);
-		// vscode.window.showInformationMessage(capitalizedStr);
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	}
 
@@ -40,7 +38,6 @@ export function getRelativePathInLibFolder(filePath: string): string {
 		} else {
 			var libPath = vscode.workspace.rootPath + "\\lib";
 			var notMacPath = filePath.substr(libPath.length).replace(/\//g, "\\");
-			//  vscode.window.showInformationMessage(notMacPath);
 			return notMacPath;
 		}
 
@@ -126,9 +123,7 @@ export function getNameOfSourceFile(originalFilePath: string): string {
 
 export function getNameOfTestFile(originalFilePath: string): string {
 	var nameOfOriginalFile = path.basename(originalFilePath, path.extname(originalFilePath));
-	// vscode.window.showInformationMessage(nameOfOriginalFile);
 	var nameOfTestFile = nameOfOriginalFile + "_test" + path.extname(originalFilePath);
-	// vscode.window.showInformationMessage(nameOfTestFile);
 	return nameOfTestFile;
 }
 
@@ -195,7 +190,6 @@ export function findPathsWithFileName(baseFolder: string, fileName: string, resu
 }
 
 export function openDocumentInEditor(filePath: string) {
-	vscode.window.showInformationMessage(filePath);
 	if ((process.platform === 'darwin')) {
 		var openPath = vscode.Uri.parse("file://" + filePath);
 

@@ -69,11 +69,9 @@ export function activate(context: vscode.ExtensionContext) {
 				if(fileOperations.isPathInLibFolder(result)) {
 					// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
 					// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
-					// vscode.window.showInformationMessage(result);
 					var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(result));
 				
 					if(searchResultPath !== null) {
-						vscode.window.showInformationMessage(searchResultPath);
 						//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
 			
 						fileOperations.openDocumentInEditor(searchResultPath);

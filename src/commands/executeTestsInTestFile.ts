@@ -62,8 +62,6 @@ export function activate(context: vscode.ExtensionContext) {
                       
                     }
                 }
-
-                vscode.window.showInformationMessage('bro!');
     
                 if (pathToExecute !== undefined) {
                     if (!terminal) {

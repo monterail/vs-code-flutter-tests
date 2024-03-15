@@ -8,7 +8,6 @@ export function createTestFile(originalFilePath: string, className: string | und
 	//Get relative file path to /lib folder 
 	if (fileOperations.isPathInLibFolder(originalFilePath)) {
 		var pathOfTestFile = fileOperations.getPathOfTestFile(originalFilePath);
-		vscode.window.showInformationMessage(pathOfTestFile);
 		fs.mkdir(path.dirname(pathOfTestFile), { recursive: true }, (err) => {
 			if (err) throw err;
 

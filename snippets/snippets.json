@@ -22,5 +22,17 @@
             ");"
         ],
         "description": "Default dart test group stub"
+    },
+    "fwidgettest": {
+        "prefix": "fwidgettest",
+        "body": [
+            "testWidgets(",
+            "\t'$1',",
+            "\t(tester) async {",
+            "\t\t$2",
+            "\t},",
+            ");"
+        ],
+        "description": "Default dart fwidgettest group stub"
     }
 }

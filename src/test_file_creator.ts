@@ -111,7 +111,6 @@ function getTestFileContent(pathToPackage: string, className: string, testType: 
 	
 	void main() {
 		testWidgets('Widget description', (tester) async {
-		  // Test code goes here.
 		});
 }`;
 }}

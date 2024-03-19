@@ -10,7 +10,7 @@ export function isPathInLibFolder(path: string): boolean {
 		return path.indexOf(libPath) === 0;
 	} else {
 
-		if(path.startsWith("\\")) {
+		if (path.startsWith("\\")) {
 			var newPath = path.substring(1);
 			var libPath = vscode.workspace.rootPath + "/lib";
 			var libPathFull = libPath.replace(/\//g, "\\");
@@ -20,9 +20,9 @@ export function isPathInLibFolder(path: string): boolean {
 			var libPathFull = libPath.replace(/\//g, "\\");
 			return path.indexOf(libPathFull) === 0;
 		}
-		
+
 	}
-	
+
 }
 
 export function isTestFile(filePath: string): boolean {
@@ -31,9 +31,9 @@ export function isTestFile(filePath: string): boolean {
 
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	} else {
-	
+
 		var testPath = vscode.workspace.rootPath + "\\test";
-		
+
 
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	}
@@ -45,14 +45,14 @@ export function getRelativePathInLibFolder(filePath: string): string {
 	if (isPathInLibFolder(filePath)) {
 		if ((process.platform === 'darwin')) {
 			var libPath = vscode.workspace.rootPath + "/lib";
-		
+
 			return filePath.substr(libPath.length);
 		} else {
 			var libPath = vscode.workspace.rootPath + "\\lib";
-			var filePath2 =  filePath.replace(/\//g, "\\");
+			var filePath2 = filePath.replace(/\//g, "\\");
 
-			if(filePath2.startsWith("\\")) {
-				 filePath2 = filePath2.substr(1);
+			if (filePath2.startsWith("\\")) {
+				filePath2 = filePath2.substr(1);
 			}
 			var notMacPath = filePath2.substr(libPath.length);
 			return notMacPath;
@@ -108,16 +108,7 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 
 /// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string): string {
-	var originalFilePath2;
-
-	originalFilePath2 = originalFilePath.replace(/\//g, "\\");
-	if(originalFilePath2.startsWith("\\")) {
-		originalFilePath2 = originalFilePath2.substr(1)
-		var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
-	} else {
-		var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
-	}
-
+	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
 	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
 	if (vscode.workspace.workspaceFolders !== undefined) {
 
@@ -125,15 +116,26 @@ export function getPathOfTestFile(originalFilePath: string): string {
 		if ((process.platform === 'darwin')) {
 			return rootPath + "/" + folderOfTestFile + "/" + getNameOfTestFile(originalFilePath);
 		} else {
-			rootPath =rootPath.replace(/\//g, "\\");
-			if(rootPath.startsWith("\\")) {
-				var test = rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2)
-		
+			var originalFilePath2;
+
+			originalFilePath2 = originalFilePath.replace(/\//g, "\\");
+			if (originalFilePath2.startsWith("\\")) {
+				originalFilePath2 = originalFilePath2.substr(1);
+				relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
+			} else {
+				relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
+			}
+
+
+			rootPath = rootPath.replace(/\//g, "\\");
+			if (rootPath.startsWith("\\")) {
+				var test = rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
+
 				return test;
 			} else {
-	
-				var test2 =  rootPath.replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
-			
+
+				var test2 = rootPath.replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
+
 				return test2;
 			}
 
@@ -161,7 +163,7 @@ export function getNameOfSourceFile(originalFilePath: string): string {
 	}
 }
 // TODO FIX THIS!
-export function getNameOfTestFile(originalFilePath: string): string {	
+export function getNameOfTestFile(originalFilePath: string): string {
 
 	var nameOfOriginalFile = path.basename(originalFilePath, path.extname(originalFilePath));
 	var nameOfTestFile = nameOfOriginalFile + "_test" + path.extname(originalFilePath);

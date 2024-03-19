@@ -10,6 +10,7 @@ export function activate() {
   vscode.workspace.onDidRenameFiles(async event => {
     event.files.forEach(async (fileChange) => {
 
+      let newPath = '';
       if ((process.platform === 'darwin')) {
         if (fileOperations.isPathInLibFolder(fileChange.oldUri.path)) {
 
@@ -58,24 +59,31 @@ export function activate() {
           }
         }
       } else {
-        if (fileOperations.isPathInLibFolder(fileChange.oldUri.path)) {
-          vscode.window.showInformationMessage(fileChange.oldUri.path);
-          var isDirectory = fs.lstatSync(fileChange.newUri.path).isDirectory();
+        if (fileOperations.isPathInLibFolder((fileChange.oldUri.path).replace(/\//g, "\\"))) {
+        	if(((fileChange.newUri.path).replace(/\//g, "\\")).startsWith("\\")) {
+           newPath = (fileChange.newUri.path).substring(1);
+          newPath = newPath.replace(/\//g, "\\");
+          var isDirectory = fs.lstatSync(newPath).isDirectory();
+        } else {
+          newPath = newPath.replace(/\//g, "\\");
+          var isDirectory = fs.lstatSync(newPath).isDirectory();
+        }
+        
 
           if (isDirectory == true) {
+            vscode.window.showInformationMessage('true');
             renameFolder(fileChange.oldUri.path, fileChange.newUri.path);
           }
           else {
             var oldtestFilePath = fileOperations.getPathOfTestFile(fileChange.oldUri.path);
+
             var testFileName = fileOperations.getNameOfTestFile(fileChange.oldUri.path);
 
             if (fs.existsSync(oldtestFilePath)) {
-
               var selectedItem = await vscode.window.showInformationMessage("Do you want to move/rename " + testFileName + "?", "Yes", "No");
               if (selectedItem === "Yes") {
 
                 var newTestFilePath = fileOperations.getPathOfTestFile(fileChange.newUri.path);
-
                 //Verzeichnisse die nicht existieren erstellen
                 fs.mkdir(path.dirname(newTestFilePath), { recursive: true }, async (err) => {
 
@@ -84,20 +92,31 @@ export function activate() {
                   //-> Müssen nach aktive editors schauen und das modifizieren, scheint es keine API für zu geben :/
                   //-> Issue in Github setzen?
                   //-> window.onDidChangeActiveTextEditor nutzen und die aktiven editoren tracken
-
-                  fs.renameSync(oldtestFilePath, newTestFilePath)
-
+       
+                  fs.renameSync(oldtestFilePath, newTestFilePath);
                   deleteEmptyFoldersRecursively(path.dirname(oldtestFilePath));
+                  //Change Path to sourcefile in test file (path to package);
+  
+                  var libPath = vscode.workspace.rootPath + "\\lib";
+                  var filePath =  (fileChange.oldUri.path).replace(/\//g, "\\");
+            
+                  if(filePath.startsWith("\\")) {
+                     filePath = filePath.substr(1);
+                  }
+                  var relativePathOld = filePath.substr(libPath.length);
+                  relativePathOld = relativePathOld.replace(/\\/g, "/");
+                  var filePath2 =  (fileChange.newUri.path).replace(/\//g, "\\");
+            
+                  if(filePath2.startsWith("\\")) {
+                     filePath2 = filePath2.substr(1);
+                  }
+                  var relativePathNew = filePath2.substr(libPath.length);
+                  relativePathNew = relativePathNew.replace(/\\/g, "/");
 
-                  //Change Path to sourcefile in test file (path to package)
-                  var relativePathOld = fileOperations.getRelativePathInLibFolder(fileChange.oldUri.path);
-                  var relativePathNew = fileOperations.getRelativePathInLibFolder(fileChange.newUri.path);
-
-                  console.log("Change \n" + relativePathOld + "\n to \n" + relativePathNew + "\nin " + newTestFilePath);
                   var content = fs.readFileSync(newTestFilePath).toString();
+        
                   var content = content.replace(relativePathOld, relativePathNew);
                   fs.writeFileSync(newTestFilePath, content);
-
                   vscode.window.showInformationMessage("Moved file to " + newTestFilePath);
                 });
               }
@@ -105,7 +124,7 @@ export function activate() {
           }
         }
       }
-
+     
 
     });
   });
@@ -129,7 +148,9 @@ function deleteEmptyFoldersRecursively(folderPath: string) {
 
 //Rekursiv muss allerdings der File-Path angepasst werden :/
 async function renameFolder(oldPath: string, newPath: string) {
+  vscode.window.showInformationMessage('renameFolder');
   var oldTestFolder = fileOperations.getPathOfTestFolder(oldPath);
+
 
   console.log(oldTestFolder);
 

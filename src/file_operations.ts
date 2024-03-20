@@ -13,17 +13,10 @@ export function isPathInLibFolder(path: string): boolean {
 		if(path.startsWith("\\") || path.startsWith("/") ) {
 	
 			var newPath = path.substring(1);
-			// newPath
-			// c:/Users/PC/Desktop/flutter/flutter_application_1/lib/src/sample_feature
 			newPath = newPath.replace(/\//g, "\\");
-			// vscode.window.showErrorMessage(newPath);
 			var libPath = vscode.workspace.rootPath + "\\lib";
-			// libPath
-			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib
 			
 			var libPathFull = libPath.replace(/\//g, "\\");
-			// libPathFull
-			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib
 			return newPath.indexOf(libPathFull) === 0;
 		} else {
 

@@ -219,8 +219,6 @@ async function renameFolder(oldPath: string, newPath: string) {
 function updatePathToPackageRecursively(parentFolderPath: string, searchText: string, replaceText: string): void {
 
   for (let filePath of fileOperations.walkSync(parentFolderPath)) {
-
-    vscode.window.showErrorMessage(replaceText);
     var content = fs.readFileSync(filePath).toString();
 
     if ((process.platform !== 'darwin')) {

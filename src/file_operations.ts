@@ -9,20 +9,31 @@ export function isPathInLibFolder(path: string): boolean {
 		var libPath = vscode.workspace.rootPath + "/lib";
 		return path.indexOf(libPath) === 0;
 	} else {
-
-		if (path.startsWith("\\")) {
+	
+		if(path.startsWith("\\") || path.startsWith("/") ) {
+	
 			var newPath = path.substring(1);
-			var libPath = vscode.workspace.rootPath + "/lib";
+			// newPath
+			// c:/Users/PC/Desktop/flutter/flutter_application_1/lib/src/sample_feature
+			newPath = newPath.replace(/\//g, "\\");
+			// vscode.window.showErrorMessage(newPath);
+			var libPath = vscode.workspace.rootPath + "\\lib";
+			// libPath
+			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib
+			
 			var libPathFull = libPath.replace(/\//g, "\\");
+			// libPathFull
+			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib
 			return newPath.indexOf(libPathFull) === 0;
 		} else {
-			var libPath = vscode.workspace.rootPath + "/lib";
+
+			var libPath = vscode.workspace.rootPath + "\\lib";
 			var libPathFull = libPath.replace(/\//g, "\\");
 			return path.indexOf(libPathFull) === 0;
 		}
-
+		
 	}
-
+	
 }
 
 export function isTestFile(filePath: string): boolean {
@@ -31,9 +42,9 @@ export function isTestFile(filePath: string): boolean {
 
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	} else {
-
+	
 		var testPath = vscode.workspace.rootPath + "\\test";
-
+		
 
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	}
@@ -41,20 +52,37 @@ export function isTestFile(filePath: string): boolean {
 }
 
 export function getRelativePathInLibFolder(filePath: string): string {
-
+	// filePath
+	// /c:/Users/PC/Desktop/flutter/flutter_application_1/lib/src/sample_feature2
 	if (isPathInLibFolder(filePath)) {
+		
+
 		if ((process.platform === 'darwin')) {
 			var libPath = vscode.workspace.rootPath + "/lib";
-
+		
 			return filePath.substr(libPath.length);
 		} else {
+			
 			var libPath = vscode.workspace.rootPath + "\\lib";
-			var filePath2 = filePath.replace(/\//g, "\\");
+			// libPath
+			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib
 
-			if (filePath2.startsWith("\\")) {
-				filePath2 = filePath2.substr(1);
+
+			var filePath2 =  filePath.replace(/\//g, "\\");
+
+			// filePath2
+			// \c:\Users\PC\Desktop\flutter\flutter_application_1\lib\src\sample_feature2
+
+			if(filePath2.startsWith("\\") ) {
+				 filePath2 = filePath2.substr(1);
 			}
+	
+			// filePath2
+			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib\src\sample_feature2
 			var notMacPath = filePath2.substr(libPath.length);
+
+			// notMacPath
+			// \src\sample_feature
 			return notMacPath;
 
 		}
@@ -86,15 +114,34 @@ export function isDirectoryEmpty(folderPath: string) {
 ///Takes a folderName!!!
 export function getPathOfTestFolder(originalFolderPath: string): string {
 	var relativPathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
+
+	// relativPathToLibFolder
+	// \src\sample_feature2
+
 	var testFolder = "test" + relativPathToLibFolder; //path.dirname(relativPathToLibFolder);
+
+	
 
 	if (vscode.workspace.workspaceFolders !== undefined) {
 		var rootPath = vscode.workspace.workspaceFolders[0].uri.path;
-
+		
+		// rootPath
+		// /c:/Users/PC/Desktop/flutter/flutter_application_1
 		if ((process.platform === 'darwin')) {
 			return rootPath + "/" + testFolder;
 		} else {
+
+
+			// newPath
+			// c:/Users/PC/Desktop/flutter/flutter_application_1/lib/src/sample_feature
+
+			rootPath = rootPath.replace(/\//g, "\\");
+			if(rootPath.startsWith("\\") || rootPath.startsWith("/") ) {
+				 rootPath = rootPath.substring(1);
+			}
+
 			var test = rootPath + "/" + testFolder;
+	
 			return test.replace(/\//g, "\\");
 		}
 
@@ -108,7 +155,22 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 
 /// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string): string {
-	var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
+	var originalFilePath2 = '';
+	if ((process.platform !== 'darwin')) {
+	
+
+		originalFilePath2 = originalFilePath.replace(/\//g, "\\");
+		if(originalFilePath2.startsWith("\\")) {
+			originalFilePath2 = originalFilePath2.substr(1)
+			var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
+		} else {
+			var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
+		}
+	
+	} else {
+		var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
+	}
+
 	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
 	if (vscode.workspace.workspaceFolders !== undefined) {
 
@@ -116,26 +178,15 @@ export function getPathOfTestFile(originalFilePath: string): string {
 		if ((process.platform === 'darwin')) {
 			return rootPath + "/" + folderOfTestFile + "/" + getNameOfTestFile(originalFilePath);
 		} else {
-			var originalFilePath2;
-
-			originalFilePath2 = originalFilePath.replace(/\//g, "\\");
-			if (originalFilePath2.startsWith("\\")) {
-				originalFilePath2 = originalFilePath2.substr(1);
-				relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
-			} else {
-				relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
-			}
-
-
-			rootPath = rootPath.replace(/\//g, "\\");
-			if (rootPath.startsWith("\\")) {
-				var test = rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
-
+			rootPath =rootPath.replace(/\//g, "\\");
+			if(rootPath.startsWith("\\")) {
+				var test = rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2)
+		
 				return test;
 			} else {
-
-				var test2 = rootPath.replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
-
+	
+				var test2 =  rootPath.replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
+			
 				return test2;
 			}
 
@@ -163,7 +214,7 @@ export function getNameOfSourceFile(originalFilePath: string): string {
 	}
 }
 // TODO FIX THIS!
-export function getNameOfTestFile(originalFilePath: string): string {
+export function getNameOfTestFile(originalFilePath: string): string {	
 
 	var nameOfOriginalFile = path.basename(originalFilePath, path.extname(originalFilePath));
 	var nameOfTestFile = nameOfOriginalFile + "_test" + path.extname(originalFilePath);

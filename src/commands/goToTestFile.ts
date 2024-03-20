@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 						if(selection === "Yes" ) {
 							var selectionSecondStep = await vscode.window.showQuickPick(["testUnit", "testGrupe", "testWidget"], {"placeHolder": "Chose initial widget type -- unit or widget."}); 
 
-							if(selectionSecondStep === "test" ) {
+							if(selectionSecondStep === "testUnit" ) {
 								testFileCreator.createTestFile(path, className, selectionSecondStep);
 							}
 							else if (selectionSecondStep === "testGrupe") {

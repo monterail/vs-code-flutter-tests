@@ -39,11 +39,15 @@ export function activate(context: vscode.ExtensionContext) {
 						//if test file doesn't exist, we recomment to create one :)
 						var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(path) + "' in 'test/'. Do you want to create it?"}); 
 						if(selection === "Yes" ) {
-							var selectionSecondStep = await vscode.window.showQuickPick(["test", "testWidget"], {"placeHolder": "Chose initial widget type -- unit or widget."}); 
+							var selectionSecondStep = await vscode.window.showQuickPick(["testUnit", "testGrupe", "testWidget"], {"placeHolder": "Chose initial widget type -- unit or widget."}); 
 
 							if(selectionSecondStep === "test" ) {
 								testFileCreator.createTestFile(path, className, selectionSecondStep);
-							} else {
+							}
+							else if (selectionSecondStep === "testGrupe") {
+								testFileCreator.createTestFile(path, className, selectionSecondStep);
+							}
+							else {
 								testFileCreator.createTestFile(path, className, 'testWidget');
 							}
 						
@@ -80,11 +84,16 @@ export function activate(context: vscode.ExtensionContext) {
 						//if test file doesn't exist, we recomment to create one :)
 						var selection = await vscode.window.showQuickPick(["Yes", "No"], {"placeHolder": "Could not find file '" + fileOperations.getNameOfTestFile(result) + "' in 'test/'. Do you want to create it?"}); 
 						if(selection === "Yes" ) {
-							var selectionSecondStep = await vscode.window.showQuickPick(["test", "testWidget"], {"placeHolder": "Choose initial widget type -- unit or widget."}); 
+							var selectionSecondStep = await vscode.window.showQuickPick(["testUnit", "testGrupe", "testWidget"], {"placeHolder": "Choose initial widget type -- unit or widget."}); 
 
-							if(selectionSecondStep === "test" ) {
+							if(selectionSecondStep === "testUnit") {
 								testFileCreator.createTestFile(result, className, selectionSecondStep);
-							} else {
+							} else if (selectionSecondStep === "testGrupe") {
+								testFileCreator.createTestFile(result, className, selectionSecondStep);
+							}
+							
+							else {
+
 								testFileCreator.createTestFile(result, className, 'testWidget');
 							}
 						}	

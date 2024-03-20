@@ -82,11 +82,20 @@ function extractPublicClassNames(originalFilePath: string): string[] {
 }
 
 
-
-
 function getTestFileContent(pathToPackage: string, className: string, testType: string): string {
-
-	if(testType === 'test') {
+	if(testType === 'testUnit') {
+		var packageName = fileOperations.getPackageName();
+		return `import 'package:flutter_test/flutter_test.dart'; 
+	import 'package:${packageName.replace(/\\/g, "/")}${pathToPackage.replace(/\\/g, "/")}';
+	
+	void main() {
+		test(
+			'',
+			() async {
+			},
+		);
+	}`;
+	} else if(testType === 'testGrupe') {
 		var packageName = fileOperations.getPackageName();
 		return `import 'package:flutter_test/flutter_test.dart'; 
 	import 'package:${packageName.replace(/\\/g, "/")}${pathToPackage.replace(/\\/g, "/")}';

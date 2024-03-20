@@ -45,8 +45,6 @@ export function isTestFile(filePath: string): boolean {
 }
 
 export function getRelativePathInLibFolder(filePath: string): string {
-	// filePath
-	// /c:/Users/PC/Desktop/flutter/flutter_application_1/lib/src/sample_feature2
 	if (isPathInLibFolder(filePath)) {
 		
 
@@ -57,25 +55,15 @@ export function getRelativePathInLibFolder(filePath: string): string {
 		} else {
 			
 			var libPath = vscode.workspace.rootPath + "\\lib";
-			// libPath
-			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib
 
 
 			var filePath2 =  filePath.replace(/\//g, "\\");
-
-			// filePath2
-			// \c:\Users\PC\Desktop\flutter\flutter_application_1\lib\src\sample_feature2
 
 			if(filePath2.startsWith("\\") ) {
 				 filePath2 = filePath2.substr(1);
 			}
 	
-			// filePath2
-			// c:\Users\PC\Desktop\flutter\flutter_application_1\lib\src\sample_feature2
 			var notMacPath = filePath2.substr(libPath.length);
-
-			// notMacPath
-			// \src\sample_feature
 			return notMacPath;
 
 		}
@@ -85,7 +73,6 @@ export function getRelativePathInLibFolder(filePath: string): string {
 		throw `${filePath} is not inside of /lib`;
 	}
 }
-// notMacPath = notMacPath.replace(/\\/g, "/");
 
 ///returns all paths of files in nested folders.
 ///can be used so: for (let filePath of walkSync(parentFolderPath)) {...

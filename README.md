@@ -15,8 +15,8 @@ Boost your TDD-Workflow by:
 
 ### Demo
 
-**Create test file or switch between tests and code with ⌘+T.**
-**Execute Tests with ⌥+⌘+T**
+**Create test file or switch between tests and code with ctrl+shift+T and ⌘+shift+T on mac.**
+**Execute Tests with on ctrl+alt+shift+R mac ⌥+⌘+shift+R**
 
 ![demo-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/6585f9ac2566ecd6731bfa88fb8e6ed088bb52fc/assets/demo-0.2.0.gif)
 
@@ -29,9 +29,9 @@ Boost your TDD-Workflow by:
 
 | Command ( + context menu)        | Shortcut | Description                                                  |
 | -------------------------------- | -------- | ------------------------------------------------------------ |
-| Better Tests: Go to tests        | ⌘+T      | Creates file `xyz_test.dart`  for file `xyz.dart` in the  `/test` folder. Will automatically create the necessary folder tree under `/test` to match the location of `xyz.dart` under `/lib`.<br />If `xyz_test.dart` already exists, editor will show it. |
-| Better Tests: Go to source file  | ⌘+T      | Opens the `xyz.dart` file if you are inside a `xyz_test.dart` file. |
-| Better Tests: Run tests for file | ⌥+⌘+T    | Executes all tests inside of a `xyz_test.dart`. Works also if you are currently inside of `xyz.dart` |
+| Better Tests: Go to tests        | ctrl+shift+T and ⌘+shift+T on mac | Creates file `xyz_test.dart`  for file `xyz.dart` in the  `/test` folder. Will automatically create the necessary folder tree under `/test` to match the location of `xyz.dart` under `/lib`.<br />If `xyz_test.dart` already exists, editor will show it. |
+| Better Tests: Go to source file  | ctrl+shift+T and ⌘+shift+T on mac | Opens the `xyz.dart` file if you are inside a `xyz_test.dart` file. |
+| Better Tests: Run tests for file | ctrl+alt+shift+R mac ⌥+⌘+shift+R | Executes all tests inside of a `xyz_test.dart`. Works also if you are currently inside of `xyz.dart` |
 
 
 
@@ -41,3 +41,4 @@ Boost your TDD-Workflow by:
 | -------------- | ------------------------------------------------------ |
 | `ftest`        | Creates `test('<test-name>', () {<test-code>})`        |
 | `fgroup`       | Creates `group('<group-name>', () {<multiple-tests>})` |
+| `fwidgettest`  | Creates `testWidgets('<test-widget-name>', () {<test-widgets>})` |

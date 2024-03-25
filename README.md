@@ -1,8 +1,10 @@
-# README
+# VS-CODE-FLUTTER-TESTS
 
-**Improve the quality of your code by
-accelerating your coding/testing workflow 🚀**
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](.)
+<img src="./assets/monterail_logo.svg" alt="Monterail's logo" width="25%" height="100" align="right"/>
 
+Improve the quality of your code by accelerating your coding/testing workflow 🚀
 
 Boost your TDD-Workflow by:
 * ✅ Creating a proper `xyz_test.dart` file with boilderplate code for an existing `xyz.dart` file with one click!
@@ -11,7 +13,7 @@ Boost your TDD-Workflow by:
 * ✅ Using snippets to avoid writing boilderplate code
 * ✅ Automatically keep file and folder structure in sync between /lib and /test even if you rename or move a file or folder
 
-## Demo
+### Demo
 
 **Create test file or switch between tests and code with ⌘+T.**
 **Execute Tests with ⌥+⌘+T**
@@ -23,7 +25,7 @@ Boost your TDD-Workflow by:
 ![rename-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/10e202bfc4e1c121fbb4846e8dc7e3694e5482cf/assets/demo_rename.gif)
 
 
-## Commands Summary
+### Commands Summary
 
 | Command ( + context menu)        | Shortcut | Description                                                  |
 | -------------------------------- | -------- | ------------------------------------------------------------ |
@@ -33,7 +35,7 @@ Boost your TDD-Workflow by:
 
 
 
-## Snippets
+### Snippets
 
 | Snippet Prefix | Description                                            |
 | -------------- | ------------------------------------------------------ |

@@ -18,11 +18,11 @@ Improve the quality of your code by accelerating your coding/testing workflow �
 **Create test file or switch between tests and code with ctrl+shift+T and ⌘+shift+T on mac.**
 **Execute Tests with on ctrl+alt+shift+R and ⌥+⌘+shift+R on mac**
 
-![demo-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/6585f9ac2566ecd6731bfa88fb8e6ed088bb52fc/assets/demo-0.2.0.gif)
+![demo-gif](https://github.com/monterail/vs-code-flutter-tests/blob/main/assets/demo.gif)
 
 **Keep file and folder structure in sync after rename or move operations**
 
-![rename-gif](https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/raw/10e202bfc4e1c121fbb4846e8dc7e3694e5482cf/assets/demo_rename.gif)
+![rename-gif](https://github.com/monterail/vs-code-flutter-tests/blob/main/assets/demo-rename.gif)
 
 
 ### Commands Summary

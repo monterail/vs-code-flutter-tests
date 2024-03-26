@@ -1,9 +1,9 @@
 {
-	"name": "better-tests",
-	"displayName": "Better Flutter Tests",
+	"name": "flutter-tests-assistant",
+	"displayName": "Flutter Tests Assistant",
 	"description": "This Extension makes it much easier to create and maintain unit tests for flutter projects.",
 	"version": "0.3.2",
-	"publisher": "andreasblech",
+	"publisher": "monterail",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
@@ -13,7 +13,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://bitbucket.org/ThePeacefulCoder/better-flutter-tests/src/master/"
+		"url": "https://github.com/monterail/vs-code-flutter-tests"
 	},
 	"keywords": [
 		"flutter",

@@ -46,17 +46,17 @@
 		"commands": [
 			{
 				"command": "better-tests.goToTestFile",
-				"title": "Better Tests: Go to tests",
+				"title": "Flutter Tests Assistant: Go to tests",
 				"icon": "./assets/swap.png"
 			},
 			{
 				"command": "better-tests.goToSourceFile",
-				"title": "Better Tests: Go to source file",
+				"title": "Flutter Tests Assistant: Go to source file",
 				"icon": "./assets/swap.png"
 			},
 			{
 				"command": "better-tests.executeTestsInTestFile",
-				"title": "Better Tests: Run tests for file",
+				"title": "Flutter Tests Assistant: Run tests for file",
 				"icon": "./assets/run_tests.png"
 			},
 			{

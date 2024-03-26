@@ -2,7 +2,7 @@
 
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](.)
-<img src="./assets/monterail_logo.png" alt="Monterail's logo" width="25%" height="100" align="right"/>
+<img src="./assets/monterail_logo.png" alt="Monterail's logo" align="right"/>
 
 Improve the quality of your code by accelerating your coding/testing workflow 🚀
 

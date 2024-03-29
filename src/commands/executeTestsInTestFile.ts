@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
         //if test file doesn't exist, we recomment to create one :) 
 
         var path = vscode.window.activeTextEditor?.document.uri.path;
-        if ((process.platform === 'darwin')) {
+        if (process.platform === 'darwin') {
             if (path !== undefined) {
                 var pathToExecute: string | undefined;
     

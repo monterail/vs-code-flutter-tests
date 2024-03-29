@@ -11,7 +11,7 @@ export function activate() {
     event.files.forEach(async (fileChange) => {
 
       let newPath = '';
-      if ((process.platform === 'darwin')) {
+      if (process.platform === 'darwin') {
         if (fileOperations.isPathInLibFolder(fileChange.oldUri.path)) {
 
           var isDirectory = fs.lstatSync(fileChange.newUri.path).isDirectory();
@@ -148,7 +148,7 @@ function deleteEmptyFoldersRecursively(folderPath: string) {
 
 //Rekursiv muss allerdings der File-Path angepasst werden :/
 async function renameFolder(oldPath: string, newPath: string) {
-  if ((process.platform === 'darwin')) {
+  if (process.platform === 'darwin') {
     var oldTestFolder = fileOperations.getPathOfTestFolder(oldPath);
 
     console.log(oldTestFolder);

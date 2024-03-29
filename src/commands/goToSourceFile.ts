@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		var path = vscode.window.activeTextEditor?.document.uri.path;
 
-		if ((process.platform === 'darwin')) {
+		if (process.platform === 'darwin') {
 			if(path !== undefined) {
 				var searchResultPath = fileOperations.searchSourceFilePath(fileOperations.getNameOfSourceFile(path));
 		

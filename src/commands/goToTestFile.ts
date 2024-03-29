@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		var path = vscode.window.activeTextEditor?.document.uri.path;
 
-		if ((process.platform === 'darwin')) {
+		if (process.platform === 'darwin') {
 			if(path !== undefined) {
 				if(fileOperations.isPathInLibFolder(path)) {
 					// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
@@ -58,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
 					//Do nothing, because we are already in the test file
 				}
 				else {
-					vscode.window.showErrorMessage(path+" is not in the /lib path of this directory");
+					vscode.window.showErrorMessage(path+" is 1 not in the /lib path of this directory");
 				}
 			}
 			else {
@@ -66,15 +66,25 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		} else {
 			if(path !== undefined) {
+				var result = path
 			
-				var result = path.substr(1).replace(/\//g, "\\");
-			
-				// c:\Users\PC\Desktop\flutter\flutter_application_1\lib\src\sample_feature\sample_item.dart
+
+				if (process.platform === 'linux') {
+					result = path.substr(1);
+				} else {
+					result = path.substr(1).replace(/\//g, "\\");
+				}
+
+
 				if(fileOperations.isPathInLibFolder(result)) {
+
+				
 					// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
 					// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
+
+					// FIX THIS ON UBUNTU!!!
 					var searchResultPath = fileOperations.searchTestFilePath(fileOperations.getNameOfTestFile(result));
-				
+					vscode.window.showErrorMessage("broooo 123");
 					if(searchResultPath !== null) {
 						//Note: Maybe check, if the path is correct to the original file path? Otherwise recommend to move it to another path?
 			
@@ -103,7 +113,7 @@ export function activate(context: vscode.ExtensionContext) {
 					//Do nothing, because we are already in the test file
 				}
 				else {
-					vscode.window.showErrorMessage(result+" is not in the /lib path of this directory");
+					vscode.window.showErrorMessage(result+" is 2 not in the /lib path of this directory");
 				}
 			}
 			else {

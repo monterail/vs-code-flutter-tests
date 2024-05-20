@@ -17,9 +17,9 @@ function getNumberOfBlocTests(fileContent: string): number {
 }
 
 function getMatchesOfRegex(fileContent: string, regex: RegExp) {
-    var matches = fileContent.match(regex);
+    let matches = fileContent.match(regex);
 
-    if(matches === undefined || matches === null) {
+    if (matches === undefined || matches === null) {
         return 0;
     }
     else {

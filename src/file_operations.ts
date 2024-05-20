@@ -4,59 +4,59 @@ import * as path from 'path';
 
 /// Looks, if the path is in /lib folder
 export function isPathInLibFolder(path: string): boolean {
-	
+
 	if (process.platform === 'darwin') {
-		var libPath = vscode.workspace.rootPath + "/lib";
+		let libPath = vscode.workspace.rootPath + "/lib";
 		return path.indexOf(libPath) === 0;
-	} else if(process.platform === 'linux') {
+	} else if (process.platform === 'linux') {
 
-		if(path.startsWith("\\") || path.startsWith("/") ) {
-	
-			var newPath = path.substring(1);
+		if (path.startsWith("\\") || path.startsWith("/")) {
+
+			let newPath = path.substring(1);
 			newPath = newPath.replace(/\//g, "\\");
-			var libPath = vscode.workspace.rootPath + "/lib";
-			
-			var libPathFull = libPath.substring(1);
+			let libPath = vscode.workspace.rootPath + "/lib";
+
+			let libPathFull = libPath.substring(1);
 			return newPath.indexOf(libPathFull) === 0;
 		} else {
 
-			var libPath = vscode.workspace.rootPath + "/lib";
-			var libPathFull = libPath.substring(1);
+			let libPath = vscode.workspace.rootPath + "/lib";
+			let libPathFull = libPath.substring(1);
 			return path.indexOf(libPathFull) === 0;
 		}
 	}
-	
-	
+
+
 	else {
-	
-		if(path.startsWith("\\") || path.startsWith("/") ) {
-	
-			var newPath = path.substring(1);
+
+		if (path.startsWith("\\") || path.startsWith("/")) {
+
+			let newPath = path.substring(1);
 			newPath = newPath.replace(/\//g, "\\");
-			var libPath = vscode.workspace.rootPath + "\\lib";
-			
-			var libPathFull = libPath.replace(/\//g, "\\");
+			let libPath = vscode.workspace.rootPath + "\\lib";
+
+			let libPathFull = libPath.replace(/\//g, "\\");
 			return newPath.indexOf(libPathFull) === 0;
 		} else {
 
-			var libPath = vscode.workspace.rootPath + "\\lib";
-			var libPathFull = libPath.replace(/\//g, "\\");
+			let libPath = vscode.workspace.rootPath + "\\lib";
+			let libPathFull = libPath.replace(/\//g, "\\");
 			return path.indexOf(libPathFull) === 0;
 		}
-		
+
 	}
-	
+
 }
 
 export function isTestFile(filePath: string): boolean {
 	if (process.platform === 'darwin') {
-		var testPath = vscode.workspace.rootPath + "/test";
+		let testPath = vscode.workspace.rootPath + "/test";
 
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	} else {
-	
-		var testPath = vscode.workspace.rootPath + "\\test";
-		
+
+		let testPath = vscode.workspace.rootPath + "\\test";
+
 
 		return filePath.indexOf(testPath) === 0 && path.basename(filePath).indexOf("_test.dart") >= 0;
 	}
@@ -66,24 +66,24 @@ export function isTestFile(filePath: string): boolean {
 export function getRelativePathInLibFolder(filePath: string): string {
 
 	if (isPathInLibFolder(filePath)) {
-		
+
 
 		if (process.platform === 'darwin') {
-			var libPath = vscode.workspace.rootPath + "/lib";
-		
+			let libPath = vscode.workspace.rootPath + "/lib";
+
 			return filePath.substr(libPath.length);
 		} else {
-			
-			var libPath = vscode.workspace.rootPath + "\\lib";
+
+			let libPath = vscode.workspace.rootPath + "\\lib";
 
 
-			var filePath2 =  filePath.replace(/\//g, "\\");
+			let filePath2 = filePath.replace(/\//g, "\\");
 
-			if(filePath2.startsWith("\\") ) {
-				 filePath2 = filePath2.substr(1);
+			if (filePath2.startsWith("\\")) {
+				filePath2 = filePath2.substr(1);
 			}
-	
-			var notMacPath = filePath2.substr(libPath.length);
+
+			let notMacPath = filePath2.substr(libPath.length);
 			return notMacPath;
 
 		}
@@ -111,20 +111,14 @@ export function isDirectoryEmpty(folderPath: string) {
 	return fs.readdirSync(folderPath).length === 0;
 }
 
-///Takes a folderName!!!
 export function getPathOfTestFolder(originalFolderPath: string): string {
-	var relativPathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
+	let relativePathToLibFolder = getRelativePathInLibFolder(originalFolderPath);
 
-	// relativPathToLibFolder
-	// \src\sample_feature2
-
-	var testFolder = "test" + relativPathToLibFolder; //path.dirname(relativPathToLibFolder);
-
-	
+	let testFolder = "test" + relativePathToLibFolder;
 
 	if (vscode.workspace.workspaceFolders !== undefined) {
-		var rootPath = vscode.workspace.workspaceFolders[0].uri.path;
-		
+		let rootPath = vscode.workspace.workspaceFolders[0].uri.path;
+
 		// rootPath
 		// /c:/Users/PC/Desktop/flutter/flutter_application_1
 		if (process.platform === 'darwin') {
@@ -136,12 +130,12 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 			// c:/Users/PC/Desktop/flutter/flutter_application_1/lib/src/sample_feature
 
 			rootPath = rootPath.replace(/\//g, "\\");
-			if(rootPath.startsWith("\\") || rootPath.startsWith("/") ) {
-				 rootPath = rootPath.substring(1);
+			if (rootPath.startsWith("\\") || rootPath.startsWith("/")) {
+				rootPath = rootPath.substring(1);
 			}
 
-			var test = rootPath + "/" + testFolder;
-	
+			let test = rootPath + "/" + testFolder;
+
 			return test.replace(/\//g, "\\");
 		}
 
@@ -153,40 +147,38 @@ export function getPathOfTestFolder(originalFolderPath: string): string {
 
 }
 
-/// relativPathToLibFolder is
 export function getPathOfTestFile(originalFilePath: string): string {
-	var originalFilePath2 = '';
+	let originalFilePath2 = '';
+	let relativePathToLibFolder = '';
 	if ((process.platform !== 'darwin')) {
-	
-
 		originalFilePath2 = originalFilePath.replace(/\//g, "\\");
-		if(originalFilePath2.startsWith("\\")) {
+		if (originalFilePath2.startsWith("\\")) {
 			originalFilePath2 = originalFilePath2.substr(1)
-			var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
+			relativePathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
 		} else {
-			var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
+			relativePathToLibFolder = getRelativePathInLibFolder(originalFilePath2);
 		}
-	
+
 	} else {
-		var relativPathToLibFolder = getRelativePathInLibFolder(originalFilePath);
+		relativePathToLibFolder = getRelativePathInLibFolder(originalFilePath);
 	}
 
-	var folderOfTestFile = "test" + path.dirname(relativPathToLibFolder);
+	let folderOfTestFile = "test" + path.dirname(relativePathToLibFolder);
 	if (vscode.workspace.workspaceFolders !== undefined) {
 
-		var rootPath = vscode.workspace.workspaceFolders[0].uri.path;
+		let rootPath = vscode.workspace.workspaceFolders[0].uri.path;
 		if (process.platform === 'darwin') {
 			return rootPath + "/" + folderOfTestFile + "/" + getNameOfTestFile(originalFilePath);
 		} else {
-			rootPath =rootPath.replace(/\//g, "\\");
-			if(rootPath.startsWith("\\")) {
-				var test = rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2)
-		
+			rootPath = rootPath.replace(/\//g, "\\");
+			if (rootPath.startsWith("\\")) {
+				let test = rootPath.substr(1).replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2)
+
 				return test;
 			} else {
-	
-				var test2 =  rootPath.replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
-			
+
+				let test2 = rootPath.replace(/\//g, "\\") + "\\" + folderOfTestFile + "\\" + getNameOfTestFile(originalFilePath2);
+
 				return test2;
 			}
 
@@ -201,44 +193,41 @@ export function getPathOfTestFile(originalFilePath: string): string {
 }
 
 export function getNameOfSourceFile(originalFilePath: string): string {
-	var nameOfOriginalFile = path.basename(originalFilePath);
+	let nameOfOriginalFile = path.basename(originalFilePath);
 
-	var idx = nameOfOriginalFile.indexOf("_test.dart");
+	let idx = nameOfOriginalFile.indexOf("_test.dart");
 
 	if (idx === -1) {
 		return "";
 	}
 	else {
-		var nameOfSourceFile = nameOfOriginalFile.substr(0, idx) + path.extname(originalFilePath);
+		let nameOfSourceFile = nameOfOriginalFile.substr(0, idx) + path.extname(originalFilePath);
 		return nameOfSourceFile;
 	}
 }
-// TODO FIX THIS!
-export function getNameOfTestFile(originalFilePath: string): string {	
 
-	var nameOfOriginalFile = path.basename(originalFilePath, path.extname(originalFilePath));
-	var nameOfTestFile = nameOfOriginalFile + "_test" + path.extname(originalFilePath);
+export function getNameOfTestFile(originalFilePath: string): string {
+	let nameOfOriginalFile = path.basename(originalFilePath, path.extname(originalFilePath));
+	let nameOfTestFile = nameOfOriginalFile + "_test" + path.extname(originalFilePath);
 
 	return nameOfTestFile;
-
-
 }
 
 
 export function searchSourceFilePath(source_file_name: string): string | null {
-
+	let results = [];
 	if (process.platform === 'darwin') {
-		var pathOfSourceFolder = vscode.workspace.rootPath + "/lib";
+		let pathOfSourceFolder = vscode.workspace.rootPath + "/lib";
 
-		var result = findPathsWithFileName(pathOfSourceFolder, source_file_name, []);
+		results = findPathsWithFileName(pathOfSourceFolder, source_file_name, []);
 	} else {
-		var pathOfSourceFolder = vscode.workspace.rootPath + "/lib";
-		var result = findPathsWithFileName(pathOfSourceFolder.replace(/\//g, "\\"), source_file_name, []);
+		let pathOfSourceFolder = vscode.workspace.rootPath + "/lib";
+		results = findPathsWithFileName(pathOfSourceFolder.replace(/\//g, "\\"), source_file_name, []);
 	}
 
 
-	if (result.length >= 1) {
-		return result[0];
+	if (results.length >= 1) {
+		return results[0];
 	}
 	else {
 		return null;
@@ -246,18 +235,19 @@ export function searchSourceFilePath(source_file_name: string): string | null {
 }
 
 export function searchTestFilePath(test_file_name: string): string | null {
+	let results = [];
 	if (process.platform === 'darwin') {
-		var pathOfTestFolder = vscode.workspace.rootPath + "/test";
-		var result = findPathsWithFileName(pathOfTestFolder, test_file_name, []);
+		let pathOfTestFolder = vscode.workspace.rootPath + "/test";
+		results = findPathsWithFileName(pathOfTestFolder, test_file_name, []);
 
 	} else {
-		var pathOfTestFolder = vscode.workspace.rootPath + "/test";
+		let pathOfTestFolder = vscode.workspace.rootPath + "/test";
 		let resultPath = pathOfTestFolder.replace(/\//g, "\\");
-		var result = findPathsWithFileName(resultPath, test_file_name, []);
+		results = findPathsWithFileName(resultPath, test_file_name, []);
 	}
 
-	if (result.length >= 1) {
-		return result[0];
+	if (results.length >= 1) {
+		return results[0];
 	}
 	else {
 		return null;
@@ -267,12 +257,12 @@ export function searchTestFilePath(test_file_name: string): string | null {
 
 /// Returns paths of files with 
 export function findPathsWithFileName(baseFolder: string, fileName: string, result: string[]) {
-	var files = fs.readdirSync(baseFolder);
+	let files = fs.readdirSync(baseFolder);
 	result = result || [];
 
 	files.forEach(
 		function (file: string) {
-			var newBaseFolder = path.join(baseFolder, file);
+			let newBaseFolder = path.join(baseFolder, file);
 			if (fs.statSync(newBaseFolder).isDirectory()) {
 				result = findPathsWithFileName(newBaseFolder, fileName, result);
 			}
@@ -288,13 +278,13 @@ export function findPathsWithFileName(baseFolder: string, fileName: string, resu
 
 export function openDocumentInEditor(filePath: string) {
 	if (process.platform === 'darwin') {
-		var openPath = vscode.Uri.parse("file://" + filePath);
+		let openPath = vscode.Uri.parse("file://" + filePath);
 
 		vscode.workspace.openTextDocument(openPath).then(doc => {
 			vscode.window.showTextDocument(doc);
 		});
 	} else {
-		var openPath = vscode.Uri.parse("file:\\\\" + filePath);
+		let openPath = vscode.Uri.parse("file:\\\\" + filePath);
 
 		vscode.workspace.openTextDocument(openPath).then(doc => {
 			vscode.window.showTextDocument(doc);
@@ -305,12 +295,12 @@ export function openDocumentInEditor(filePath: string) {
 
 //Returns the name of the package from pubspec.yaml
 export function getPackageName() {
-	var pubspecPath = vscode.workspace.rootPath + "/pubspec.yaml";
+	let pubspecPath = vscode.workspace.rootPath + "/pubspec.yaml";
 
-	var content = fs.readFileSync(pubspecPath).toString();
+	let content = fs.readFileSync(pubspecPath).toString();
 
 	//Search for the line "name: <package-name>" in pubspec.yaml
-	var matches = content.match(/^name: (\w*)/);
+	let matches = content.match(/^name: (\w*)/);
 
 	if (matches !== null && matches.length >= 2) {
 		return matches[1];

@@ -1,9 +1,9 @@
 {
 	"name": "flutter-tests-assistant",
 	"displayName": "Flutter Tests Assistant",
-	"description": "This Extension makes it much easier to create and maintain unit tests for flutter projects.",
-	"version": "0.3.2",
-	"publisher": "monterail",
+	"description": "Improve the quality of your code by accelerating your testing workflow.",
+	"version": "1.0.0",
+	"publisher": "Monterail",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
@@ -28,7 +28,7 @@
 	"galleryBanner": {
 		"color": "#FFFFFF"
 	},
-	"icon": "assets/logo.png",
+	"icon": "assets/mascot.png",
 	"activationEvents": [
 		"onLanguage:dart",
 		"onCommand:better-tests.goToTestFile",
@@ -139,6 +139,7 @@
 		}
 	},
 	"scripts": {
+		"vscode:build": "npm i -g @vscode/vsce && vsce package",
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",

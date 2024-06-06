@@ -6,7 +6,7 @@ import * as fileOperations from '../file_operations';
 import * as testFileCreator from '../test_file_creator';
 
 export function activate(context: vscode.ExtensionContext) {
-	let disposableGoToSource = vscode.commands.registerCommand('better-tests.goToSourceFile', async (args) => {
+	let disposableGoToSource = vscode.commands.registerCommand('flutter-tests-assistant.goToSourceFile', async (args) => {
 		// TODO: Erst schauen, ob die Test Datei am vorgesehen Ort existiert
 		// Falls nicht kann immer noch danach gesucht werden die Datei zu verschieben (Info Dialog)
 

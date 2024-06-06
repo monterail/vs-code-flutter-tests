@@ -1,22 +1,12 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-
-import * as coverage_highlight from './coverage_highlight';
-
-import * as codeLens from './code_lens';
-
-import * as fileOperations from './file_operations';
+import * as coverageHighlight from './coverage_highlight';
 
 import * as executeTestsInTestFileCommand from './commands/executeTestsInTestFile';
 import * as goToTestFileCommand from './commands/goToTestFile';
 import * as goToSourceFileCommand from './commands/goToSourceFile';
+import * as generateCoverageCommand from './commands/generateCoverage';
 
-import * as testFileCreator from './test_file_creator'
-
-import * as statusBarItem from './statusBarItem';
+import * as statusBarItem from './status_bar_item';
 import * as renameWatcher from './rename_watcher';
 
 //Lcov explained
@@ -29,11 +19,14 @@ export function activate(context: vscode.ExtensionContext) {
 	goToTestFileCommand.activate(context);
 	goToSourceFileCommand.activate(context);
 	executeTestsInTestFileCommand.activate(context);
+	generateCoverageCommand.activate(context);
 	statusBarItem.activate();
+	coverageHighlight.activate();
+	coverageHighlight.activateToggleCommand(context);
 
 	renameWatcher.activate();
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 

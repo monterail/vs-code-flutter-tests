@@ -23,6 +23,8 @@ Improve the quality of your code by accelerating your coding/testing workflow �
 | Go to tests        | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd><br /><kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> | Switch to the matching test file. The extension will create the test file, if necessary, after asking for the use-case. |
 | Go to source file  | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> <br /> <kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> | Switch to the source file. |
 | Run tests for file | <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> <br /> <kbd>⌥</kbd>+<kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> | Executes all tests for the matching source file. |
+| Generate test coverage | None | Executes all tests to gather test coverage information. |
+| Toggle test coverage highlights | <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> <br /> <kbd>⌥</kbd>+<kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> | Shows/Hides text editor line decorations indicating test coverage. |
 
 ## Snippets
 

@@ -84,13 +84,13 @@ class MyCodeLensProvider implements vscode.CodeLensProvider {
                 let lineOfClass = new vscode.Range(line, 0, line, 0)
 
                 let goToTestFile: vscode.Command = {
-                    command: 'better-tests.goToTestFile',
+                    command: 'flutter-tests-assistant.goToTestFile',
                     title: testFileExists ? 'Go To TestFile' : 'Create TestFile',
                     arguments: [match[1]], //Provide Class Name to command
                 }
 
                 let executeTests: vscode.Command = {
-                    command: 'better-tests.executeTestsInTestFile',
+                    command: 'flutter-tests-assistant.executeTestsInTestFile',
                     title: 'Run Tests', //TODO: Schreiben wie viele Tests gefunden wurden :)  "Run 5 Tests"
 
                 }

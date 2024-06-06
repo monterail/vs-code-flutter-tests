@@ -3,9 +3,7 @@ import * as fs from 'fs';
 
 import * as fileAnalyse from './file_analyse.js'
 import * as fileOperations from './file_operations.js'
-
-const executeTestsCommandId = 'better-tests.executeTestsInTestFile'; //TODO: Globale Variable an 2 Stellen
-const gotoTestsCommandId = 'better-tests.goToTestFile'; //TODO: Globale Variable an 2 Stellen
+import commandIds from './commands/ids.js';
 
 let myStatusBarItem: vscode.StatusBarItem;
 
@@ -75,12 +73,12 @@ function updateStatusBarItem() {
       myStatusBarItem.text = text;
 
       if (testNumber === 0) {
-        //Triggers creation or goto event to test file, if there are no tests present
-        myStatusBarItem.command = gotoTestsCommandId;
+        // Triggers creation or goto event to test file, if there are no tests present.
+        myStatusBarItem.command = commandIds.goToTestsCommandId;
       }
       else {
-        //Executes the tests
-        myStatusBarItem.command = executeTestsCommandId;
+        // Executes the tests.
+        myStatusBarItem.command = commandIds.executeTestsCommandId;
       }
       myStatusBarItem.show();
 

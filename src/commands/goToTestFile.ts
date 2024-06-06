@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('better-tests.goToTestFile', async (...args) => {
+	let disposable = vscode.commands.registerCommand('flutter-tests-assistant.goToTestFile', async (...args) => {
 		//we have to search for the test file by adding _test.dart to the filename and search for it in the <workspace-folder>/test/ directory
 
 		console.log("GoToTestFile-Args:");

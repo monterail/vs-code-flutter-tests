@@ -31,9 +31,11 @@
 	"icon": "assets/mascot.png",
 	"activationEvents": [
 		"onLanguage:dart",
-		"onCommand:better-tests.goToTestFile",
-		"onCommand:better-tests.goToSourceFile",
-		"onCommand:better-tests.executeTestsInTestFile"
+		"onCommand:flutter-tests-assistant.goToTestFile",
+		"onCommand:flutter-tests-assistant.goToSourceFile",
+		"onCommand:flutter-tests-assistant.executeTestsInTestFile",
+		"onCommand:flutter-tests-assistant.generateCoverage",
+		"onCommand:flutter-tests-assistant.toggleCoverageHighlight"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -45,42 +47,53 @@
 		],
 		"commands": [
 			{
-				"command": "better-tests.goToTestFile",
+				"command": "flutter-tests-assistant.goToTestFile",
 				"title": "Flutter Tests Assistant: Go to tests",
 				"icon": "./assets/swap.png"
 			},
 			{
-				"command": "better-tests.goToSourceFile",
+				"command": "flutter-tests-assistant.goToSourceFile",
 				"title": "Flutter Tests Assistant: Go to source file",
 				"icon": "./assets/swap.png"
 			},
 			{
-				"command": "better-tests.executeTestsInTestFile",
+				"command": "flutter-tests-assistant.executeTestsInTestFile",
 				"title": "Flutter Tests Assistant: Run tests for file",
 				"icon": "./assets/run_tests.png"
 			},
 			{
-				"command": "extension.addConsoleLog",
-				"title": "TEST: Add Console Log"
+				"command": "flutter-tests-assistant.generateCoverage",
+				"title": "Flutter Tests Assistant: Generate test coverage info",
+				"icon": "./assets/run_tests.png"
+			},
+			{
+				"command": "flutter-tests-assistant.toggleCoverageHighlight",
+				"title": "Flutter Tests Assistant: Toggle test coverage highlight"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "better-tests.goToTestFile",
+				"command": "flutter-tests-assistant.goToTestFile",
 				"key": "ctrl+shift+T",
 				"mac": "cmd+shift+T",
 				"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/"
 			},
 			{
-				"command": "better-tests.goToSourceFile",
+				"command": "flutter-tests-assistant.goToSourceFile",
 				"key": "ctrl+shift+T",
 				"mac": "cmd+shift+T",
 				"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/"
 			},
 			{
-				"command": "better-tests.executeTestsInTestFile",
+				"command": "flutter-tests-assistant.executeTestsInTestFile",
 				"key": "ctrl+alt+shift+R",
 				"mac": "cmd+alt+shift+R",
+				"when": "resourceLangId == dart"
+			},
+			{
+				"command": "flutter-tests-assistant.toggleCoverageHighlight",
+				"key": "ctrl+alt+shift+C",
+				"mac": "cmd+alt+shift+C",
 				"when": "resourceLangId == dart"
 			}
 		],
@@ -88,51 +101,51 @@
 			"touchBar": [
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
-					"command": "better-tests.goToTestFile",
+					"command": "flutter-tests-assistant.goToTestFile",
 					"group": "nasc"
 				},
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
-					"command": "better-tests.goToSourceFile",
+					"command": "flutter-tests-assistant.goToSourceFile",
 					"group": "nasc"
 				},
 				{
 					"when": "resourceLangId == dart",
-					"command": "better-tests.executeTestsInTestFile",
+					"command": "flutter-tests-assistant.executeTestsInTestFile",
 					"group": "nasc"
 				}
 			],
 			"explorer/context": [
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
-					"command": "better-tests.goToTestFile",
+					"command": "flutter-tests-assistant.goToTestFile",
 					"group": "1_modification"
 				},
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
-					"command": "better-tests.goToSourceFile",
+					"command": "flutter-tests-assistant.goToSourceFile",
 					"group": "1_modification"
 				},
 				{
 					"when": "resourceLangId == dart",
-					"command": "better-tests.executeTestsInTestFile",
+					"command": "flutter-tests-assistant.executeTestsInTestFile",
 					"group": "1_modification"
 				}
 			],
 			"editor/context": [
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /(?<!_test)\\.dart/",
-					"command": "better-tests.goToTestFile",
+					"command": "flutter-tests-assistant.goToTestFile",
 					"group": "1_modification"
 				},
 				{
 					"when": "resourceLangId == dart && resourceFilename =~ /_test.dart/",
-					"command": "better-tests.goToSourceFile",
+					"command": "flutter-tests-assistant.goToSourceFile",
 					"group": "1_modification"
 				},
 				{
 					"when": "resourceLangId == dart",
-					"command": "better-tests.executeTestsInTestFile",
+					"command": "flutter-tests-assistant.executeTestsInTestFile",
 					"group": "1_modification"
 				}
 			]

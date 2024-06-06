@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "better-tests" extension will be documented in this file.
+All notable changes to the "flutter-tests-assistant" extension will be documented in this file.
 
 ## [0.1.8] - 2021-02-01
 
